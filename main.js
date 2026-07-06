@@ -7,6 +7,8 @@ function createWindow() {
     height: 900,
     backgroundColor: '#060807',
     title: 'tally',
+    titleBarStyle: 'hiddenInset',
+    icon: path.join(__dirname, 'icon.icns'),
   });
   win.setMenuBarVisibility(false);
   win.loadFile(path.join(__dirname, 'index.html'));

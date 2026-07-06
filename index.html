@@ -7,6 +7,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0B0F0E">
 <title>tally</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 
@@ -46,7 +49,7 @@
     flex-shrink: 0;
   }
   .screen{
-    position:absolute; inset:0; overflow-y:auto; -webkit-overflow-scrolling:touch; padding-bottom: 108px; padding-top: 34px;
+    position:absolute; inset:0; overflow-y:auto; -webkit-overflow-scrolling:touch; padding-bottom: 158px; padding-top: 34px;
     background-image:
       linear-gradient(rgba(230,235,232,0.025) 1px, transparent 1px),
       linear-gradient(90deg, rgba(230,235,232,0.025) 1px, transparent 1px);
@@ -54,29 +57,15 @@
   }
   .screen::-webkit-scrollbar{ display:none; }
 
-  .brand{ padding: 10px 22px 6px; text-align:center; }
-  .brand h1{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:34px; margin:0; letter-spacing:0.5px; }
-  .brand h1 .cursor{ display:inline-block; width:9px; height:28px; background:var(--blue); margin-left:4px; vertical-align:-4px; animation:blink 1.1s step-end infinite; }
+  .brand{ padding: 14px 22px 8px; text-align:center; -webkit-app-region: drag; }
+  .brand h1{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:50px; margin:0; letter-spacing:0.5px; }
+  .brand h1 .cursor{ display:inline-block; width:13px; height:41px; background:var(--blue); margin-left:5px; vertical-align:-7px; animation:blink 1.1s step-end infinite; }
   @keyframes blink{ 50%{ opacity:0; } }
-  .underline{ width:56px; height:2px; background:var(--blue); opacity:0.55; margin: 10px auto 0; border:none; }
+  .underline{ width:70px; height:2px; background:var(--blue); opacity:0.55; margin: 12px auto 0; border:none; }
 
   .label-caps{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:1.4px; color:var(--cream-dim); text-transform:uppercase; font-weight:600; padding: 0 22px; margin-bottom:9px; }
 
-  /* ---- Search / sort ---- */
-  .list-controls{ display:flex; gap:8px; padding: 10px 22px 8px; }
-  .list-controls input[type="search"]{
-    flex:1; min-width:0; background:transparent; border:1px solid var(--dash); border-radius:7px;
-    padding:9px 11px; color:var(--cream); font-family:'Inter',sans-serif; font-size:13.5px; outline:none;
-  }
-  .list-controls input[type="search"]::placeholder{ color:var(--cream-dim); }
-  .list-controls input[type="search"]:focus{ border-color:var(--blue); }
-  .list-controls select{
-    background:transparent; border:1px solid var(--dash); border-radius:7px;
-    padding:9px 8px; color:var(--cream-dim); font-family:'Inter',sans-serif; font-size:12.5px; outline:none;
-  }
-  .list-controls select:focus{ border-color:var(--blue); }
-
-  .list-wrap{ padding: 6px 22px 10px; }
+  .list-wrap{ padding: 10px 22px 10px; }
   .empty{ text-align:center; color:var(--cream-dim); font-size:16px; padding:56px 10px; }
   .section-header{ font-family:'JetBrains Mono',monospace; font-size:18px; color:var(--cream-dim); margin:14px 0 7px 2px; display:flex; align-items:center; gap:8px; }
   .section-header .line{ flex:1; height:1px; background:var(--dash-faint); }
@@ -147,7 +136,7 @@
 
   /* ---- Toast ---- */
   .toast{
-    position:absolute; left:22px; right:22px; bottom:96px;
+    position:absolute; left:22px; right:22px; bottom:130px;
     background:#1A2320; border:1px solid var(--dash); border-radius:10px;
     padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:12px;
     transform:translateY(12px); opacity:0; pointer-events:none; transition: all .18s ease;
@@ -158,7 +147,22 @@
   .toast button{ background:none; border:none; color:var(--blue); font-weight:700; font-size:13.5px; cursor:pointer; letter-spacing:0.3px; text-transform:uppercase; flex-shrink:0; }
 
   /* ---- Bottom bar ---- */
-  .bottom-bar{ position:absolute; left:0; right:0; bottom:0; background: linear-gradient(180deg, rgba(23,35,29,0) 0%, var(--bg) 30%); padding: 26px 22px 22px; display:flex; align-items:center; gap:10px; }
+  .bottom-bar{ position:absolute; left:0; right:0; bottom:0; background: linear-gradient(180deg, rgba(23,35,29,0) 0%, var(--bg) 30%); padding: 18px 22px 22px; display:flex; flex-direction:column; gap:10px; }
+  .bottom-search-row{ display:flex; gap:8px; }
+  .bottom-search-row input[type="search"]{
+    flex:1; min-width:0; background:transparent; border:1px solid var(--dash); border-radius:7px;
+    padding:9px 11px; color:var(--cream); font-family:'Inter',sans-serif; font-size:13.5px; outline:none;
+  }
+  .bottom-search-row input[type="search"]::placeholder{ color:var(--cream-dim); }
+  .bottom-search-row input[type="search"]:focus{ border-color:var(--blue); }
+  .bottom-search-row select{
+    background:transparent; border:1px solid var(--dash); border-radius:7px;
+    padding:9px 8px; color:var(--cream-dim); font-family:'Inter',sans-serif; font-size:12.5px; outline:none;
+  }
+  .bottom-search-row select:focus{ border-color:var(--blue); }
+  .bottom-actions-row{ display:flex; align-items:center; gap:10px; }
+  .settings-btn{ flex-shrink:0; width:52px; height:52px; background:transparent; color:var(--cream); border:1px solid var(--dash); border-radius:8px; font-size:18px; cursor:pointer; font-family:'Inter',sans-serif; display:flex; align-items:center; justify-content:center; }
+  .settings-btn:hover{ border-color:var(--blue); }
   .groups-btn{ flex:1; background:transparent; color:var(--cream); border:1px solid var(--dash); border-radius:8px; padding:16px 10px; font-weight:700; font-size:13px; letter-spacing:0.8px; text-transform:uppercase; cursor:pointer; font-family:'Inter',sans-serif; display:flex; align-items:center; justify-content:center; gap:8px; }
   .groups-btn:hover{ border-color:var(--blue); }
   .groups-btn .bars{ color:var(--blue); font-size:16px; }
@@ -232,7 +236,6 @@
   .group-add-inline input:focus{ border-color:var(--blue); }
   .group-add-inline button{ background:var(--blue); color:var(--bg); border:none; border-radius:6px; padding:0 16px; font-weight:700; font-size:14.5px; cursor:pointer; }
 
-  .drawer-footer{ padding: 14px 20px 0; border-top:1px solid var(--dash-faint); margin-top:12px; }
   .drawer-footer-btn{
     width:100%; background:transparent; border:1px solid var(--dash); color:var(--cream-dim);
     border-radius:7px; padding:11px 12px; font-size:13.5px; font-weight:600; cursor:pointer;
@@ -276,16 +279,6 @@
         <div class="underline"></div>
       </div>
 
-      <div class="list-controls">
-        <input type="search" id="searchInput" placeholder="Search picks…" aria-label="Search predictions">
-        <select id="sortSelect" aria-label="Sort predictions">
-          <option value="newest">Newest</option>
-          <option value="oldest">Oldest</option>
-          <option value="az">A–Z</option>
-          <option value="status">Status</option>
-        </select>
-      </div>
-
       <div class="list-wrap"><div id="list"></div></div>
     </div>
 
@@ -295,8 +288,20 @@
     </div>
 
     <div class="bottom-bar">
-      <button class="groups-btn" id="menuBtn" aria-label="Open groups menu"><span class="bars" aria-hidden="true">☰</span> Groups</button>
-      <button class="fab" id="fabBtn" aria-label="Add prediction">+</button>
+      <div class="bottom-search-row">
+        <input type="search" id="searchInput" placeholder="Search picks…" aria-label="Search predictions">
+        <select id="sortSelect" aria-label="Sort predictions">
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+          <option value="az">A–Z</option>
+          <option value="status">Status</option>
+        </select>
+      </div>
+      <div class="bottom-actions-row">
+        <button class="settings-btn" id="settingsBtn" aria-label="Open settings">☰</button>
+        <button class="groups-btn" id="menuBtn" aria-label="Open groups menu"><span class="bars" aria-hidden="true">▦</span> Groups</button>
+        <button class="fab" id="fabBtn" aria-label="Add prediction">+</button>
+      </div>
     </div>
 
     <div class="sheet-overlay" id="sheetOverlay"></div>
@@ -345,9 +350,13 @@
       <div class="label-caps">Groups</div>
       <div class="group-cards" id="groupCards"></div>
       <div id="groupAddArea"></div>
-      <div class="drawer-footer">
-        <button class="drawer-footer-btn" id="openDataBtn">⇅ Export / Import data</button>
-      </div>
+    </div>
+
+    <div class="sheet-overlay" id="settingsSheetOverlay"></div>
+    <div class="sheet" id="settingsSheet" role="dialog" aria-modal="true" aria-label="Settings">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head"><h3>Settings</h3><button class="sheet-close" id="settingsSheetClose" aria-label="Close">✕</button></div>
+      <button class="drawer-footer-btn" id="openDataBtn">⇅ Export / Import data</button>
     </div>
 
     <div class="data-modal-overlay" id="dataModalOverlay"></div>
@@ -407,6 +416,10 @@
   const groupAddArea = document.getElementById('groupAddArea');
   const searchInput = document.getElementById('searchInput');
   const sortSelect = document.getElementById('sortSelect');
+  const settingsBtn = document.getElementById('settingsBtn');
+  const settingsSheet = document.getElementById('settingsSheet');
+  const settingsSheetOverlay = document.getElementById('settingsSheetOverlay');
+  const settingsSheetClose = document.getElementById('settingsSheetClose');
   const toast = document.getElementById('toast');
   const toastMsg = document.getElementById('toastMsg');
   const toastUndoBtn = document.getElementById('toastUndoBtn');
@@ -489,10 +502,27 @@
   drawerOverlay.addEventListener('click', closeDrawer);
   wireOverlay(drawer, closeDrawer);
 
+  /* ---------- settings sheet ---------- */
+  function openSettingsSheet(){
+    returnFocusEl = document.activeElement;
+    settingsSheet.classList.add('open'); settingsSheetOverlay.classList.add('open');
+    setTimeout(()=> settingsSheetClose.focus(), 50);
+  }
+  function closeSettingsSheet(){
+    settingsSheet.classList.remove('open'); settingsSheetOverlay.classList.remove('open');
+    if(returnFocusEl) returnFocusEl.focus();
+  }
+  settingsBtn.addEventListener('click', openSettingsSheet);
+  settingsSheetClose.addEventListener('click', closeSettingsSheet);
+  settingsSheetOverlay.addEventListener('click', closeSettingsSheet);
+  wireOverlay(settingsSheet, closeSettingsSheet);
+
   /* ---------- data modal ---------- */
   function openDataModal(){
     returnFocusEl = document.activeElement;
-    exportArea.value = JSON.stringify({groups,predictions}, null, 0);
+    const cleanGroups = groups.filter(g=>!g.isTest);
+    const cleanPredictions = predictions.filter(p=>!p.isTest);
+    exportArea.value = JSON.stringify({groups:cleanGroups, predictions:cleanPredictions}, null, 0);
     importArea.value = '';
     dataModal.classList.add('open'); dataModalOverlay.classList.add('open');
     setTimeout(()=> dataModalClose.focus(), 50);
@@ -501,7 +531,7 @@
     dataModal.classList.remove('open'); dataModalOverlay.classList.remove('open');
     if(returnFocusEl) returnFocusEl.focus();
   }
-  openDataBtn.addEventListener('click', ()=>{ closeDrawer(); openDataModal(); });
+  openDataBtn.addEventListener('click', ()=>{ closeSettingsSheet(); openDataModal(); });
   dataModalClose.addEventListener('click', closeDataModal);
   dataModalOverlay.addEventListener('click', closeDataModal);
   wireOverlay(dataModal, closeDataModal);
@@ -542,6 +572,40 @@
   }
   function hideToast(){ toast.classList.remove('show'); clearTimeout(toastTimer); }
 
+  /* ---------- test fixtures ---------- */
+  function seedTestFixtures(){
+    const now = Date.now();
+    const g1 = { id:'test-g-main', name:'Test Group (sample data)', parlay:false, isTest:true };
+    const g2 = { id:'test-g-parlay', name:'Test Group (parlay demo)', parlay:true, isTest:true };
+    groups.push(g1, g2);
+
+    const mk = (overrides) => ({
+      id: uid('p'), text:'', type:'counter', groupId:g1.id, threshold:10, direction:'over',
+      count:0, outcome:null, resolution:'pending', resolutionManual:false,
+      selectionLabel:'', createdAt: now, isTest:true, ...overrides
+    });
+
+    predictions.push(
+      mk({ text:'Counter — low progress (red)', threshold:10, count:1 }),
+      mk({ text:'Counter — medium progress (yellow)', threshold:10, count:5 }),
+      mk({ text:'Counter — high progress, still pending (green)', threshold:10, count:7 }),
+      mk({ text:'Counter — auto-resolved won', threshold:5, count:5, resolution:'won' }),
+      mk({ text:'Counter — manually marked lost', threshold:10, count:3, resolution:'lost', resolutionManual:true }),
+      mk({ text:'Over/Under — decimal threshold', type:'overunder', threshold:2.5, count:2 }),
+      mk({ text:'Over/Under — decimal threshold met', type:'overunder', threshold:9.5, count:10, resolution:'won' }),
+      mk({ text:'Counter — overflow tally (>30)', threshold:50, count:37 }),
+      mk({ text:'Yes/No — answered Yes', type:'yesno', threshold:null, outcome:'yes', selectionLabel:'Yes / Man City to win' }),
+      mk({ text:'Yes/No — answered No', type:'yesno', threshold:null, outcome:'no', selectionLabel:'No / Draw' }),
+      mk({ text:'Yes/No — still pending, with a much longer prediction title to verify text wrapping and truncation behavior in the card layout', type:'yesno', threshold:null, outcome:'pending', selectionLabel:'Pending selection label example' })
+    );
+
+    predictions.push(
+      mk({ text:'Parlay leg — marked lost', groupId:g2.id, threshold:5, count:2, resolution:'lost', resolutionManual:true }),
+      mk({ text:'Parlay leg — would be won (still cancels)', groupId:g2.id, threshold:5, count:5, resolution:'won' }),
+      mk({ text:'Parlay leg — still pending (still cancels)', groupId:g2.id, threshold:5, count:1 })
+    );
+  }
+
   /* ---------- persistence ---------- */
   async function loadData(){
     try{
@@ -578,6 +642,9 @@
     predictions = predictions.map(p => ({
       resolution:'pending', direction:'over', selectionLabel:'', resolutionManual:false, createdAt:Date.now(), ...p
     }));
+    groups = groups.filter(g=>!g.isTest);
+    predictions = predictions.filter(p=>!p.isTest);
+    seedTestFixtures();
     loaded = true;
     render();
   }
@@ -586,7 +653,9 @@
     if(saving){ pendingSave = true; return; }
     saving = true;
     try{
-      localStorage.setItem(KEY, JSON.stringify({groups,predictions}));
+      const cleanGroups = groups.filter(g=>!g.isTest);
+      const cleanPredictions = predictions.filter(p=>!p.isTest);
+      localStorage.setItem(KEY, JSON.stringify({groups:cleanGroups, predictions:cleanPredictions}));
     }catch(e){ /* silent retry on next change */ }
     finally{ saving=false; if(pendingSave){ pendingSave=false; saveData(); } }
   }

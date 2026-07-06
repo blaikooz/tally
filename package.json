@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "electron .",
-    "package:mac": "electron-packager . Tally --platform=darwin --arch=x64 --out=dist --overwrite"
+    "package:mac": "electron-packager . Tally --platform=darwin --arch=x64 --icon=icon.icns --out=dist --overwrite"
   },
   "devDependencies": {
     "electron": "^32.0.0",
