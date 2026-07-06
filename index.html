@@ -46,7 +46,7 @@
     flex-shrink: 0;
   }
   .screen{
-    position:absolute; inset:0; overflow-y:auto; -webkit-overflow-scrolling:touch; padding-bottom: 158px; padding-top: 34px;
+    position:absolute; inset:0; overflow-y:auto; -webkit-overflow-scrolling:touch; padding-bottom: 158px; padding-top: 50px;
     background-image:
       linear-gradient(rgba(230,235,232,0.025) 1px, transparent 1px),
       linear-gradient(90deg, rgba(230,235,232,0.025) 1px, transparent 1px);
@@ -54,9 +54,13 @@
   }
   .screen::-webkit-scrollbar{ display:none; }
 
-  .brand{ padding: 14px 22px 8px; text-align:center; -webkit-app-region: drag; }
-  .brand h1{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:50px; margin:0; letter-spacing:0.5px; }
-  .underline{ width:70px; height:2px; background:var(--blue); opacity:0.55; margin: 12px auto 0; border:none; }
+  .topbar{
+    position:absolute; top:0; left:0; right:0; z-index:10;
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:8px 14px; background:var(--bg); border-bottom:1px solid var(--dash-faint);
+    -webkit-app-region: drag;
+  }
+  .topbar h1{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:22px; margin:0; letter-spacing:0.5px; }
 
   .label-caps{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:1.4px; color:var(--cream-dim); text-transform:uppercase; font-weight:600; padding: 0 22px; margin-bottom:9px; }
 
@@ -65,7 +69,7 @@
   .section-header{ font-family:'JetBrains Mono',monospace; font-size:18px; color:var(--cream-dim); margin:14px 0 7px 2px; display:flex; align-items:center; gap:8px; }
   .section-header .line{ flex:1; height:1px; background:var(--dash-faint); }
 
-  .card{ background: rgba(237,234,224,0.03); border:1px solid var(--dash-faint); border-radius:8px; padding:11px 13px; margin-bottom:8px; }
+  .card{ background: rgba(237,234,224,0.03); border:1px solid var(--dash-faint); border-radius:8px; padding:13px 15px; margin-bottom:9px; }
   .card.cancelled{ opacity:.6; }
   .card-top{ display:flex; align-items:center; gap:8px; margin-bottom:5px; }
   .dot{ width:9px; height:9px; border-radius:2.5px; flex-shrink:0; }
@@ -74,20 +78,17 @@
   .dot.green{ background:var(--green); box-shadow:0 0 5px rgba(79,206,126,.7); }
   .dot.gray{ background:var(--dash); box-shadow:none; }
   .dot.cancelled{ background:var(--dash); box-shadow:none; opacity:.55; }
-  .card-text{ font-size:15px; font-weight:500; word-break:break-word; flex:1; min-width:0; cursor:text; border-radius:4px; padding:1px 3px; margin:-1px -3px; }
+  .card-text{ font-size:17px; font-weight:600; word-break:break-word; flex:1; min-width:0; cursor:text; border-radius:4px; padding:1px 3px; margin:-1px -3px; }
   .card-text:hover{ background:rgba(237,234,224,0.05); }
   .card-text-edit{
     flex:1; min-width:0; background:rgba(237,234,224,0.05); border:1px solid var(--blue); border-radius:4px;
-    padding:1px 3px; margin:-1px -3px; color:var(--cream); font-family:'Inter',sans-serif; font-size:15px; font-weight:500; outline:none;
+    padding:1px 3px; margin:-1px -3px; color:var(--cream); font-family:'Inter',sans-serif; font-size:17px; font-weight:600; outline:none;
   }
-  .dup-btn{ background:none; border:none; color:var(--cream-dim); cursor:pointer; font-size:19px; flex-shrink:0; }
-  .dup-btn:hover{ color:var(--blue); }
-  .folder-btn{ background:none; border:none; color:var(--cream-dim); cursor:pointer; font-size:19px; flex-shrink:0; }
-  .folder-btn:hover{ color:var(--blue); }
-  .del-btn{ background:none; border:none; color:var(--cream-dim); cursor:pointer; font-size:21px; flex-shrink:0; }
-  .del-btn:hover{ color:var(--red); }
+  .icon-btn{ width:28px; height:28px; border-radius:50%; border:1px solid var(--dash); background:transparent; color:var(--cream-dim); font-size:13px; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+  .icon-btn:hover{ border-color:var(--blue); color:var(--blue); }
+  .icon-btn.danger:hover{ border-color:var(--red); color:var(--red); }
 
-  .card-sub{ font-size:12px; color:var(--cream-dim); margin: -1px 0 6px 17px; }
+  .card-sub{ font-size:13px; color:var(--cream-dim); margin: -1px 0 6px 17px; }
 
   .card-group-row{ margin: 0 0 6px 17px; }
   .card-group-row select{
@@ -127,10 +128,10 @@
   .stepper button:hover{ border-color:var(--blue); }
   .stepper button:disabled{ opacity:.3; cursor:default; }
 
-  .yn-btns{ display:flex; gap:10px; }
-  .yn-btn{ border:1px solid var(--dash); background:transparent; color:var(--cream-dim); border-radius:7px; padding:11px 20px; font-size:15px; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; }
-  .yn-btn.yes.active{ background:rgba(143,192,138,.18); border-color:var(--green); color:var(--green); }
-  .yn-btn.no.active{ background:rgba(208,128,118,.18); border-color:var(--red); color:var(--red); }
+  .yn-btns{ display:flex; gap:8px; }
+  .yn-btn{ width:34px; height:34px; border-radius:50%; border:1px solid var(--dash); background:transparent; color:var(--cream-dim); font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .yn-btn.yes.active{ background:rgba(143,192,138,.2); border-color:var(--green); color:var(--green); border-style:solid; }
+  .yn-btn.no.active{ background:rgba(208,128,118,.2); border-color:var(--red); color:var(--red); border-style:solid; }
 
   /* ---- Toast ---- */
   .toast{
@@ -160,9 +161,9 @@
   .bottom-search-row select:focus{ border-color:var(--blue); }
   .bottom-actions-row{ display:flex; align-items:center; gap:10px; }
   .top-settings-btn{
-    position:absolute; top:18px; right:18px; z-index:15; -webkit-app-region:no-drag;
-    width:38px; height:38px; border-radius:50%; background:transparent; color:var(--cream);
-    border:1px solid var(--dash); font-size:17px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; -webkit-app-region:no-drag;
+    width:32px; height:32px; border-radius:50%; background:transparent; color:var(--cream);
+    border:1px solid var(--dash); font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center;
   }
   .top-settings-btn:hover{ border-color:var(--blue); }
   .groups-btn{ flex:1; background:transparent; color:var(--cream); border:1px solid var(--dash); border-radius:8px; padding:16px 10px; font-weight:700; font-size:13px; letter-spacing:0.8px; text-transform:uppercase; cursor:pointer; font-family:'Inter',sans-serif; display:flex; align-items:center; justify-content:center; gap:8px; }
@@ -201,9 +202,9 @@
   .sheet-submit{ width:100%; background:var(--blue); color:var(--bg); border:none; border-radius:8px; padding:16px; font-weight:700; font-size:14px; letter-spacing:0.8px; text-transform:uppercase; cursor:pointer; margin-top:4px; font-family:'Inter',sans-serif; }
 
   /* ---- Drawer ---- */
-  .drawer-overlay{ position:absolute; top:140px; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:24; }
+  .drawer-overlay{ position:absolute; top:50px; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:24; }
   .drawer-overlay.open{ opacity:1; pointer-events:auto; }
-  .drawer{ position:absolute; top:140px; bottom:0; left:0; width:78%; max-width:300px; background:var(--bg); border-right:1px solid var(--dash-faint); border-top-right-radius:16px; transform:translateX(-100%); transition:transform .25s ease, visibility .25s; visibility:hidden; z-index:25; padding: 22px 0 22px; overflow-y:auto; }
+  .drawer{ position:absolute; top:50px; bottom:0; left:0; width:78%; max-width:300px; background:var(--bg); border-right:1px solid var(--dash-faint); border-top-right-radius:16px; transform:translateX(-100%); transition:transform .25s ease, visibility .25s; visibility:hidden; z-index:25; padding: 22px 0 22px; overflow-y:auto; }
   .drawer.open{ transform:translateX(0); visibility:visible; }
   .drawer.right{ left:auto; right:0; border-right:none; border-left:1px solid var(--dash-faint); border-top-right-radius:0; border-top-left-radius:16px; transform:translateX(100%); }
   .drawer.right.open{ transform:translateX(0); }
@@ -275,9 +276,12 @@
   .drawer-footer-btn{
     width:100%; background:transparent; border:1px solid var(--dash); color:var(--cream-dim);
     border-radius:7px; padding:11px 12px; font-size:13.5px; font-weight:600; cursor:pointer;
-    font-family:'Inter',sans-serif; text-align:left;
+    font-family:'Inter',sans-serif; text-align:left; margin-bottom:10px;
   }
   .drawer-footer-btn:hover{ border-color:var(--blue); color:var(--cream); }
+  .drawer-footer-btn.danger-text{ color:var(--red); border-color:rgba(240,104,95,0.3); }
+  .drawer-footer-btn.danger-text:hover{ border-color:var(--red); color:var(--red); background:rgba(240,104,95,0.08); }
+  .settings-stats{ font-size:12px; color:var(--cream-dim); margin-bottom:16px; line-height:1.5; }
 
   /* ---- Data modal ---- */
   .data-modal-overlay{ position:absolute; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:30; }
@@ -303,13 +307,11 @@
 </head>
 <body>
   <div class="phone-frame">
-    <button class="top-settings-btn" id="settingsBtn" aria-label="Open settings">⚙</button>
+    <div class="topbar">
+      <h1>tally</h1>
+      <button class="top-settings-btn" id="settingsBtn" aria-label="Open settings">⚙</button>
+    </div>
     <div class="screen">
-      <div class="brand">
-        <h1>tally</h1>
-        <div class="underline"></div>
-      </div>
-
       <div class="list-wrap"><div id="list"></div></div>
     </div>
 
@@ -388,7 +390,9 @@
     <div class="drawer right" id="settingsPanel" role="dialog" aria-modal="true" aria-label="Settings">
       <div class="drawer-head"><h3>Settings</h3><button class="drawer-close" id="settingsPanelClose" aria-label="Close">✕</button></div>
       <div class="drawer-body">
+        <div class="settings-stats" id="settingsStats"></div>
         <button class="drawer-footer-btn" id="openDataBtn">⇅ Export / Import data</button>
+        <button class="drawer-footer-btn danger-text" id="clearDataBtn">🗑 Clear all data</button>
       </div>
     </div>
 
@@ -463,6 +467,8 @@
   const toastMsg = document.getElementById('toastMsg');
   const toastUndoBtn = document.getElementById('toastUndoBtn');
   const openDataBtn = document.getElementById('openDataBtn');
+  const clearDataBtn = document.getElementById('clearDataBtn');
+  const settingsStats = document.getElementById('settingsStats');
   const dataModal = document.getElementById('dataModal');
   const dataModalOverlay = document.getElementById('dataModalOverlay');
   const dataModalClose = document.getElementById('dataModalClose');
@@ -542,8 +548,19 @@
   wireOverlay(drawer, closeDrawer);
 
   /* ---------- settings panel ---------- */
+  function renderSettingsStats(){
+    settingsStats.textContent = `${predictions.length} prediction${predictions.length===1?'':'s'} · ${groups.length} group${groups.length===1?'':'s'} · ${moments.length} moment${moments.length===1?'':'s'}`;
+  }
+  function clearAllData(){
+    if(!confirm('Delete all predictions, groups, and moments? This cannot be undone.')) return;
+    predictions = []; groups = []; moments = [];
+    render(); saveData();
+    closeSettingsPanel();
+    showToast('All data cleared');
+  }
   function openSettingsPanel(){
     returnFocusEl = document.activeElement;
+    renderSettingsStats();
     settingsPanel.classList.add('open'); settingsPanelOverlay.classList.add('open');
     setTimeout(()=> settingsPanelClose.focus(), 50);
   }
@@ -554,6 +571,7 @@
   settingsBtn.addEventListener('click', openSettingsPanel);
   settingsPanelClose.addEventListener('click', closeSettingsPanel);
   settingsPanelOverlay.addEventListener('click', closeSettingsPanel);
+  clearDataBtn.addEventListener('click', clearAllData);
   wireOverlay(settingsPanel, closeSettingsPanel);
 
   /* ---------- data modal ---------- */
@@ -1021,8 +1039,8 @@
       if(p.selectionLabel) subHTML = `<div class="card-sub">${esc(p.selectionLabel)}</div>`;
       bottomHTML = `
         <div class="yn-btns">
-          <button class="yn-btn yes ${p.outcome==='yes'?'active':''}" data-action="yes" data-id="${p.id}">Yes</button>
-          <button class="yn-btn no ${p.outcome==='no'?'active':''}" data-action="no" data-id="${p.id}">No</button>
+          <button class="yn-btn yes ${p.outcome==='yes'?'active':''}" data-action="yes" data-id="${p.id}" aria-label="Mark as yes">✓</button>
+          <button class="yn-btn no ${p.outcome==='no'?'active':''}" data-action="no" data-id="${p.id}" aria-label="Mark as no">✕</button>
         </div>
         <span></span>`;
     }
@@ -1035,9 +1053,9 @@
       <div class="card-top">
         <span class="dot ${dotClass}" role="img" aria-label="Status: ${statusLabel(dotClass)}" title="${statusLabel(dotClass)}"></span>
         ${titleHTML}
-        <button class="dup-btn" data-action="duplicate" data-id="${p.id}" aria-label="Duplicate prediction">⧉</button>
-        <button class="folder-btn" data-action="movegroup-toggle" data-id="${p.id}" aria-label="Move to group" aria-expanded="${moveGroupOpen}" title="Move to group">📁</button>
-        <button class="del-btn" data-action="delete" data-id="${p.id}" aria-label="Delete prediction">✕</button>
+        <button class="icon-btn" data-action="duplicate" data-id="${p.id}" aria-label="Duplicate prediction">⧉</button>
+        <button class="icon-btn" data-action="movegroup-toggle" data-id="${p.id}" aria-label="Move to group" aria-expanded="${moveGroupOpen}" title="Move to group">📁</button>
+        <button class="icon-btn danger" data-action="delete" data-id="${p.id}" aria-label="Delete prediction">✕</button>
       </div>
       ${subHTML}
       ${moveGroupOpen ? `<div class="card-group-row">${groupSelectHTML(p)}</div>` : ''}
