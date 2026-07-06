@@ -199,9 +199,9 @@
   .sheet-submit{ width:100%; background:var(--blue); color:var(--bg); border:none; border-radius:8px; padding:16px; font-weight:700; font-size:14px; letter-spacing:0.8px; text-transform:uppercase; cursor:pointer; margin-top:4px; font-family:'Inter',sans-serif; }
 
   /* ---- Drawer ---- */
-  .drawer-overlay{ position:absolute; inset:0; background:rgba(0,0,0,0.5); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:24; }
+  .drawer-overlay{ position:absolute; top:140px; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:24; }
   .drawer-overlay.open{ opacity:1; pointer-events:auto; }
-  .drawer{ position:absolute; top:0; bottom:0; left:0; width:78%; max-width:300px; background:var(--bg); border-right:1px solid var(--dash-faint); transform:translateX(-100%); transition:transform .25s ease, visibility .25s; visibility:hidden; z-index:25; padding: 22px 0 22px; overflow-y:auto; }
+  .drawer{ position:absolute; top:140px; bottom:0; left:0; width:78%; max-width:300px; background:var(--bg); border-right:1px solid var(--dash-faint); border-top-right-radius:16px; transform:translateX(-100%); transition:transform .25s ease, visibility .25s; visibility:hidden; z-index:25; padding: 22px 0 22px; overflow-y:auto; }
   .drawer.open{ transform:translateX(0); visibility:visible; }
   .drawer-head{ display:flex; justify-content:space-between; align-items:center; padding:0 20px 16px; }
   .drawer-head h3{ font-family:'JetBrains Mono',monospace; font-size:26px; margin:0; }
@@ -226,8 +226,19 @@
   .group-card .gedit-btn:hover{ color:var(--blue); }
   .group-card .gpicks{ font-size:12px; color:var(--cream-dim); margin-top:2px; }
   .group-card .gwinrate{ font-size:11.5px; color:var(--cream-dim); margin-top:1px; }
-  .group-card .gdel{ color:var(--cream-dim); font-size:13px; flex-shrink:0; }
+  .group-card .gmoment-row{ margin-top:6px; }
+  .group-card .gmoment-row select{
+    background:transparent; border:1px solid var(--dash-faint); border-radius:6px;
+    padding:4px 8px; color:var(--cream-dim); font-family:'Inter',sans-serif; font-size:11.5px; outline:none; width:100%;
+  }
+  .group-card .gmoment-row select:focus{ border-color:var(--blue); }
+  .group-card-side{ display:flex; flex-direction:column; align-items:center; gap:8px; flex-shrink:0; }
+  .group-card .gmoment-btn{ background:none; border:none; color:var(--cream-dim); font-size:15px; cursor:pointer; }
+  .group-card .gmoment-btn:hover{ color:var(--blue); }
+  .group-card .gdel{ color:var(--cream-dim); font-size:13px; }
   .group-card .gdel:hover{ color:var(--red); }
+
+  .section-sub-header{ font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--cream-dim); margin:2px 0 2px; }
 
   .new-group-btn{ margin: 0 20px; border: 1px solid var(--dash); background:transparent; color:var(--cream-dim); border-radius:7px; padding:12px 14px; font-size:14px; text-align:left; cursor:pointer; font-family:'Inter',sans-serif; width:calc(100% - 40px); }
   .new-group-btn:hover{ border-color:var(--blue); color:var(--cream); }
@@ -235,6 +246,25 @@
   .group-add-inline input{ flex:1; background:transparent; border:1px solid var(--dash); border-radius:6px; padding:11px 14px; color:var(--cream); font-family:'Inter',sans-serif; font-size:15px; outline:none; }
   .group-add-inline input:focus{ border-color:var(--blue); }
   .group-add-inline button{ background:var(--blue); color:var(--bg); border:none; border-radius:6px; padding:0 16px; font-weight:700; font-size:14.5px; cursor:pointer; }
+
+  .moment-cards{ display:flex; flex-direction:column; gap:8px; padding:0 20px; margin-bottom:10px; }
+  .moment-card{ border:1px solid var(--dash-faint); border-radius:8px; padding:10px 14px; display:flex; align-items:center; gap:12px; }
+  .moment-card .minfo{ flex:1; min-width:0; }
+  .moment-card .mname-row{ display:flex; align-items:center; gap:6px; }
+  .moment-card .mname{ font-family:'JetBrains Mono',monospace; font-size:17px; color:var(--cream); }
+  .moment-card .mname-edit{ font-family:'JetBrains Mono',monospace; font-size:15px; color:var(--cream); background:rgba(237,234,224,0.05); border:1px solid var(--blue); border-radius:4px; padding:1px 4px; width:100%; outline:none; }
+  .moment-card .medit-btn{ background:none; border:none; color:var(--cream-dim); font-size:11px; cursor:pointer; flex-shrink:0; }
+  .moment-card .medit-btn:hover{ color:var(--blue); }
+  .moment-card .mgroups{ font-size:11.5px; color:var(--cream-dim); margin-top:2px; }
+  .moment-card .mdel{ color:var(--cream-dim); font-size:13px; flex-shrink:0; cursor:pointer; }
+  .moment-card .mdel:hover{ color:var(--red); }
+
+  .new-moment-btn{ margin: 0 20px; border: 1px solid var(--dash); background:transparent; color:var(--cream-dim); border-radius:7px; padding:12px 14px; font-size:14px; text-align:left; cursor:pointer; font-family:'Inter',sans-serif; width:calc(100% - 40px); }
+  .new-moment-btn:hover{ border-color:var(--blue); color:var(--cream); }
+  .moment-add-inline{ display:flex; gap:8px; margin:0 20px; }
+  .moment-add-inline input{ flex:1; background:transparent; border:1px solid var(--dash); border-radius:6px; padding:11px 14px; color:var(--cream); font-family:'Inter',sans-serif; font-size:15px; outline:none; }
+  .moment-add-inline input:focus{ border-color:var(--blue); }
+  .moment-add-inline button{ background:var(--blue); color:var(--bg); border:none; border-radius:6px; padding:0 16px; font-weight:700; font-size:14.5px; cursor:pointer; }
 
   .drawer-footer-btn{
     width:100%; background:transparent; border:1px solid var(--dash); color:var(--cream-dim);
@@ -337,10 +367,13 @@
     </div>
 
     <div class="drawer-overlay" id="drawerOverlay"></div>
-    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Groups menu">
-      <div class="drawer-head"><h3>Menu</h3><button class="drawer-close" id="drawerClose" aria-label="Close">✕</button></div>
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Groups">
+      <div class="drawer-head"><h3>Groups</h3><button class="drawer-close" id="drawerClose" aria-label="Close">✕</button></div>
       <div class="label-caps">View</div>
       <div class="view-rows" id="viewRows"></div>
+      <div class="label-caps">Moments</div>
+      <div class="moment-cards" id="momentCards"></div>
+      <div id="momentAddArea"></div>
       <div class="label-caps">Groups</div>
       <div class="group-cards" id="groupCards"></div>
       <div id="groupAddArea"></div>
@@ -371,13 +404,16 @@
   const OLD_KEYS = ['app-data-v2','app-data'];
   let groups = [];
   let predictions = [];
+  let moments = [];
   let activeFilter = 'all';
   let newType = 'counter';
   let newThreshold = 1;
   let animatingId = null;
   let editingId = null, editingOriginal = '';
   let groupEditingId = null;
+  let momentEditingId = null;
   let moveGroupOpenId = null;
+  let assignMomentOpenId = null;
   let searchQuery = '';
   let sortMode = 'newest';
   let loaded = false;
@@ -409,6 +445,8 @@
   const viewRows = document.getElementById('viewRows');
   const groupCards = document.getElementById('groupCards');
   const groupAddArea = document.getElementById('groupAddArea');
+  const momentCards = document.getElementById('momentCards');
+  const momentAddArea = document.getElementById('momentAddArea');
   const searchInput = document.getElementById('searchInput');
   const sortSelect = document.getElementById('sortSelect');
   const settingsBtn = document.getElementById('settingsBtn');
@@ -515,7 +553,7 @@
   /* ---------- data modal ---------- */
   function openDataModal(){
     returnFocusEl = document.activeElement;
-    exportArea.value = JSON.stringify({groups,predictions}, null, 0);
+    exportArea.value = JSON.stringify({groups,predictions,moments}, null, 0);
     importArea.value = '';
     dataModal.classList.add('open'); dataModalOverlay.classList.add('open');
     setTimeout(()=> dataModalClose.focus(), 50);
@@ -545,6 +583,7 @@
       const parsed = JSON.parse(raw);
       if(!parsed || !Array.isArray(parsed.predictions)) throw new Error('bad shape');
       groups = parsed.groups || [];
+      moments = parsed.moments || [];
       predictions = parsed.predictions.map(p => ({ resolution:'pending', direction:'over', selectionLabel:'', resolutionManual:false, ...p }));
       closeDataModal();
       render(); saveData();
@@ -571,7 +610,7 @@
       const raw = localStorage.getItem(KEY);
       if(raw){
         const p = JSON.parse(raw);
-        groups = p.groups || []; predictions = p.predictions || [];
+        groups = p.groups || []; predictions = p.predictions || []; moments = p.moments || [];
       } else throw new Error('none');
     }catch(e){
       let migrated = false;
@@ -609,7 +648,7 @@
     if(saving){ pendingSave = true; return; }
     saving = true;
     try{
-      localStorage.setItem(KEY, JSON.stringify({groups,predictions}));
+      localStorage.setItem(KEY, JSON.stringify({groups,predictions,moments}));
     }catch(e){ /* silent retry on next change */ }
     finally{ saving=false; if(pendingSave){ pendingSave=false; saveData(); } }
   }
@@ -617,7 +656,7 @@
   /* ---------- groups ---------- */
   function addGroup(name){
     const t = name.trim(); if(!t) return;
-    groups.push({id:uid('g'), name:t, parlay:false});
+    groups.push({id:uid('g'), name:t, parlay:false, momentId:null});
     render(); saveData();
   }
   function toggleParlay(id){
@@ -646,6 +685,40 @@
   }
   function focusGroupEdit(){
     const el = groupCards.querySelector('.gname-edit');
+    if(el){ el.focus(); el.select(); }
+  }
+  function moveGroupToMoment(groupId, momentId){
+    const g = groups.find(x=>x.id===groupId); if(!g) return;
+    g.momentId = momentId || null;
+    render(); saveData();
+  }
+
+  /* ---------- moments ---------- */
+  function addMoment(name){
+    const t = name.trim(); if(!t) return;
+    moments.push({id:uid('m'), name:t});
+    render(); saveData();
+  }
+  function deleteMoment(id){
+    const m = moments.find(x=>x.id===id); if(!m) return;
+    const count = groups.filter(g=>g.momentId===id).length;
+    const msg = count>0
+      ? `Delete "${m.name}"? ${count} group${count===1?'':'s'} will become unassigned.`
+      : `Delete "${m.name}"?`;
+    if(!confirm(msg)) return;
+    moments = moments.filter(x=>x.id!==id);
+    groups.forEach(g=>{ if(g.momentId===id) g.momentId=null; });
+    render(); saveData();
+  }
+  function startRenameMoment(id){ momentEditingId = id; render(); focusMomentEdit(); }
+  function commitRenameMoment(id, val){
+    const m = moments.find(x=>x.id===id);
+    if(m){ const t = val.trim(); if(t) m.name = t; }
+    momentEditingId = null;
+    render(); saveData();
+  }
+  function focusMomentEdit(){
+    const el = momentCards.querySelector('.mname-edit');
     if(el){ el.focus(); el.select(); }
   }
 
@@ -814,31 +887,71 @@
     `;
   }
 
-  function renderGroupCards(){
-    groupCards.innerHTML = groups.map(g=>{
-      const items = predictions.filter(p=>p.groupId===g.id);
-      const st = statsFor(items);
-      const resolvedCount = st.won+st.lost;
-      const winRate = resolvedCount>0 ? Math.round((st.won/resolvedCount)*100)+'% win rate' : 'No picks resolved yet';
-      const isEditing = groupEditingId===g.id;
-      const isSettled = st.total>0 && st.pending===0;
-      const isVoided = g.parlay && st.lost>0;
-      return `<div class="group-card ${activeFilter===g.id?'active':''} ${isSettled?'settled':''} ${isVoided?'voided':''}" data-filter="${isEditing?'':g.id}">
-        ${dotWheelSVG(st.total, st.won, st.lost, st.cancelled, 40)}
-        <div class="ginfo">
-          <div class="gname-row">
-            ${isEditing
-              ? `<input class="gname-edit" data-action="grouprename-input" data-id="${g.id}" value="${esc(g.name)}" maxlength="40">`
-              : `<span class="gname">${esc(g.name)}</span><button class="gedit-btn" data-action="grouprename" data-id="${g.id}" aria-label="Rename group" title="Rename">✎</button>`}
-          </div>
-          <div class="gpicks">${st.total} pick${st.total===1?'':'s'}</div>
-          <div class="gwinrate">${winRate}</div>
-          <button class="gparlay-btn ${g.parlay?'active':''}" data-action="toggleparlay" data-id="${g.id}" aria-pressed="${!!g.parlay}" title="Parlay: one lost pick voids the rest of this group">Parlay</button>
+  function groupCardHTML(g){
+    const items = predictions.filter(p=>p.groupId===g.id);
+    const st = statsFor(items);
+    const resolvedCount = st.won+st.lost;
+    const winRate = resolvedCount>0 ? Math.round((st.won/resolvedCount)*100)+'% win rate' : 'No picks resolved yet';
+    const isEditing = groupEditingId===g.id;
+    const isSettled = st.total>0 && st.pending===0;
+    const isVoided = g.parlay && st.lost>0;
+    const momentOpen = assignMomentOpenId === g.id;
+    const momentOpts = `<option value="" ${!g.momentId?'selected':''}>No moment</option>` +
+      moments.map(m=>`<option value="${m.id}" ${g.momentId===m.id?'selected':''}>${esc(m.name)}</option>`).join('');
+    return `<div class="group-card ${activeFilter===g.id?'active':''} ${isSettled?'settled':''} ${isVoided?'voided':''}" data-filter="${isEditing?'':g.id}">
+      ${dotWheelSVG(st.total, st.won, st.lost, st.cancelled, 40)}
+      <div class="ginfo">
+        <div class="gname-row">
+          ${isEditing
+            ? `<input class="gname-edit" data-action="grouprename-input" data-id="${g.id}" value="${esc(g.name)}" maxlength="40">`
+            : `<span class="gname">${esc(g.name)}</span><button class="gedit-btn" data-action="grouprename" data-id="${g.id}" aria-label="Rename group" title="Rename">✎</button>`}
         </div>
+        <div class="gpicks">${st.total} pick${st.total===1?'':'s'}</div>
+        <div class="gwinrate">${winRate}</div>
+        ${momentOpen ? `<div class="gmoment-row"><select data-action="assignmoment" data-id="${g.id}" aria-label="Assign to moment">${momentOpts}</select></div>` : ''}
+        <button class="gparlay-btn ${g.parlay?'active':''}" data-action="toggleparlay" data-id="${g.id}" aria-pressed="${!!g.parlay}" title="Parlay: one lost pick voids the rest of this group">Parlay</button>
+      </div>
+      <div class="group-card-side">
+        ${moments.length>0 ? `<button class="gmoment-btn" data-action="assignmoment-toggle" data-id="${g.id}" aria-label="Assign to moment" aria-expanded="${momentOpen}" title="Assign to moment">📁</button>` : ''}
         <span class="gdel" data-delgroup="${g.id}" role="button" tabindex="0" aria-label="Delete group ${esc(g.name)}">✕</span>
+      </div>
+    </div>`;
+  }
+
+  function renderGroupCards(){
+    if(moments.length===0){
+      groupCards.innerHTML = groups.map(groupCardHTML).join('');
+    } else {
+      let html = '';
+      moments.forEach(m=>{
+        const items = groups.filter(g=>g.momentId===m.id);
+        if(items.length===0) return;
+        html += `<div class="section-sub-header">${esc(m.name)}</div>` + items.map(groupCardHTML).join('');
+      });
+      const unassigned = groups.filter(g=>!g.momentId);
+      if(unassigned.length>0) html += `<div class="section-sub-header">Unassigned</div>` + unassigned.map(groupCardHTML).join('');
+      groupCards.innerHTML = html;
+    }
+    groupAddArea.innerHTML = `<button class="new-group-btn" id="newGroupToggle">+ New group</button>`;
+  }
+
+  function renderMomentCards(){
+    momentCards.innerHTML = moments.map(m=>{
+      const count = groups.filter(g=>g.momentId===m.id).length;
+      const isEditing = momentEditingId===m.id;
+      return `<div class="moment-card">
+        <div class="minfo">
+          <div class="mname-row">
+            ${isEditing
+              ? `<input class="mname-edit" data-action="momentrename-input" data-id="${m.id}" value="${esc(m.name)}" maxlength="40">`
+              : `<span class="mname">${esc(m.name)}</span><button class="medit-btn" data-action="momentrename" data-id="${m.id}" aria-label="Rename moment" title="Rename">✎</button>`}
+          </div>
+          <div class="mgroups">${count} group${count===1?'':'s'}</div>
+        </div>
+        <span class="mdel" data-delmoment="${m.id}" role="button" tabindex="0" aria-label="Delete moment ${esc(m.name)}">✕</span>
       </div>`;
     }).join('');
-    groupAddArea.innerHTML = `<button class="new-group-btn" id="newGroupToggle">+ New group</button>`;
+    momentAddArea.innerHTML = `<button class="new-moment-btn" id="newMomentToggle">+ New moment</button>`;
   }
 
   function renderGroupSelect(){
@@ -913,9 +1026,11 @@
 
   function render(){
     renderViewRows();
+    renderMomentCards();
     renderGroupCards();
     renderGroupSelect();
     if(groupEditingId) focusGroupEdit();
+    if(momentEditingId) focusMomentEdit();
 
     if(!loaded){ listEl.innerHTML = '<div class="empty">Loading…</div>'; return; }
 
@@ -959,7 +1074,9 @@
     if(rename){ e.stopPropagation(); startRenameGroup(rename.dataset.id); return; }
     const parlayBtn = e.target.closest('[data-action="toggleparlay"]');
     if(parlayBtn){ e.stopPropagation(); toggleParlay(parlayBtn.dataset.id); return; }
-    if(e.target.closest('.gname-edit')) return;
+    const momentBtn = e.target.closest('[data-action="assignmoment-toggle"]');
+    if(momentBtn){ e.stopPropagation(); assignMomentOpenId = (assignMomentOpenId===momentBtn.dataset.id) ? null : momentBtn.dataset.id; render(); return; }
+    if(e.target.closest('.gname-edit') || e.target.closest('.gmoment-row')) return;
     const card = e.target.closest('[data-filter]'); if(!card || !card.dataset.filter) return;
     activeFilter = card.dataset.filter; render(); closeDrawer();
     if(screenEl) screenEl.scrollTop = 0;
@@ -977,6 +1094,10 @@
     const input = e.target.closest('.gname-edit');
     if(input) commitRenameGroup(input.dataset.id, input.value);
   });
+  groupCards.addEventListener('change', e=>{
+    const mv = e.target.closest('[data-action="assignmoment"]');
+    if(mv){ moveGroupToMoment(mv.dataset.id, mv.value); assignMomentOpenId = null; render(); return; }
+  });
 
   groupAddArea.addEventListener('click', e=>{
     if(e.target.id==='newGroupToggle'){
@@ -987,6 +1108,37 @@
     }
   });
   groupAddArea.addEventListener('keydown', e=>{ if(e.target.id==='newGroupInput' && e.key==='Enter') addGroup(e.target.value); });
+
+  /* ---------- events: moments ---------- */
+  momentCards.addEventListener('click', e=>{
+    const del = e.target.closest('[data-delmoment]');
+    if(del){ e.stopPropagation(); deleteMoment(del.dataset.delmoment); return; }
+    const rename = e.target.closest('[data-action="momentrename"]');
+    if(rename){ e.stopPropagation(); startRenameMoment(rename.dataset.id); return; }
+  });
+  momentCards.addEventListener('keydown', e=>{
+    const del = e.target.closest('[data-delmoment]');
+    if(del && (e.key==='Enter' || e.key===' ')){ e.preventDefault(); deleteMoment(del.dataset.delmoment); return; }
+    const input = e.target.closest('.mname-edit');
+    if(input){
+      if(e.key==='Enter'){ e.target.blur(); }
+      else if(e.key==='Escape'){ momentEditingId=null; render(); }
+    }
+  });
+  momentCards.addEventListener('focusout', e=>{
+    const input = e.target.closest('.mname-edit');
+    if(input) commitRenameMoment(input.dataset.id, input.value);
+  });
+
+  momentAddArea.addEventListener('click', e=>{
+    if(e.target.id==='newMomentToggle'){
+      momentAddArea.innerHTML = `<div class="moment-add-inline"><input type="text" id="newMomentInput" placeholder="Moment name" maxlength="40"><button id="newMomentSubmit">Add</button></div>`;
+      document.getElementById('newMomentInput').focus();
+    } else if(e.target.id==='newMomentSubmit'){
+      addMoment(document.getElementById('newMomentInput').value);
+    }
+  });
+  momentAddArea.addEventListener('keydown', e=>{ if(e.target.id==='newMomentInput' && e.key==='Enter') addMoment(e.target.value); });
 
   /* ---------- events: add-prediction sheet ---------- */
   document.querySelectorAll('.type-btn').forEach(btn=>{
