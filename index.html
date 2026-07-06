@@ -72,6 +72,7 @@
   .dot.red{ background:var(--red); box-shadow:0 0 5px rgba(240,104,95,.7); }
   .dot.yellow{ background:var(--yellow); box-shadow:0 0 5px rgba(245,193,68,.7); }
   .dot.green{ background:var(--green); box-shadow:0 0 5px rgba(79,206,126,.7); }
+  .dot.gray{ background:var(--dash); box-shadow:none; }
   .dot.cancelled{ background:var(--dash); box-shadow:none; opacity:.55; }
   .card-text{ font-size:15px; font-weight:500; word-break:break-word; flex:1; min-width:0; cursor:text; border-radius:4px; padding:1px 3px; margin:-1px -3px; }
   .card-text:hover{ background:rgba(237,234,224,0.05); }
@@ -158,8 +159,12 @@
   }
   .bottom-search-row select:focus{ border-color:var(--blue); }
   .bottom-actions-row{ display:flex; align-items:center; gap:10px; }
-  .settings-btn{ flex-shrink:0; width:52px; height:52px; background:transparent; color:var(--cream); border:1px solid var(--dash); border-radius:8px; font-size:18px; cursor:pointer; font-family:'Inter',sans-serif; display:flex; align-items:center; justify-content:center; }
-  .settings-btn:hover{ border-color:var(--blue); }
+  .top-settings-btn{
+    position:absolute; top:18px; right:18px; z-index:15; -webkit-app-region:no-drag;
+    width:38px; height:38px; border-radius:50%; background:transparent; color:var(--cream);
+    border:1px solid var(--dash); font-size:17px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .top-settings-btn:hover{ border-color:var(--blue); }
   .groups-btn{ flex:1; background:transparent; color:var(--cream); border:1px solid var(--dash); border-radius:8px; padding:16px 10px; font-weight:700; font-size:13px; letter-spacing:0.8px; text-transform:uppercase; cursor:pointer; font-family:'Inter',sans-serif; display:flex; align-items:center; justify-content:center; gap:8px; }
   .groups-btn:hover{ border-color:var(--blue); }
   .groups-btn .bars{ color:var(--blue); font-size:16px; }
@@ -170,7 +175,6 @@
   .sheet-overlay.open{ opacity:1; pointer-events:auto; }
   .sheet{ position:absolute; left:0; right:0; bottom:0; background:var(--bg); border-top:1px solid var(--dash-faint); border-radius:16px 16px 0 0; padding: 18px 22px 28px; transform: translateY(100%); transition: transform .25s ease, visibility .25s; visibility:hidden; max-height: 85%; overflow-y:auto; z-index: 21; }
   .sheet.open{ transform: translateY(0); visibility:visible; }
-  .sheet-handle{ width:36px; height:4px; background:var(--dash); border-radius:4px; margin: 0 auto 16px; }
   .sheet-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
   .sheet-head h3{ font-family:'JetBrains Mono',monospace; font-size:28px; margin:0; }
   .sheet-close{ background:none; border:none; color:var(--cream-dim); font-size:19px; cursor:pointer; }
@@ -208,11 +212,11 @@
   .drawer-close{ background:none; border:none; color:var(--cream-dim); font-size:18px; cursor:pointer; }
   .drawer-body{ padding:0 20px; }
 
-  .view-rows{ display:flex; flex-direction:column; gap:8px; padding: 0 20px; margin-bottom:22px; }
-  .view-row{ display:flex; justify-content:space-between; align-items:center; padding:12px 15px; border-radius:6px; cursor:pointer; border:1px solid var(--dash-faint); color:var(--cream-dim); }
-  .view-row .name{ font-family:'JetBrains Mono',monospace; font-size:21px; }
+  .view-rows{ display:flex; flex-direction:column; gap:6px; padding: 0 20px; margin-bottom:18px; }
+  .view-row{ display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-radius:6px; cursor:pointer; border:1px solid var(--dash-faint); color:var(--cream-dim); }
+  .view-row .name{ font-family:'JetBrains Mono',monospace; font-size:15px; }
   .view-row.active{ border-color:var(--blue); background:var(--blue-dim); color:var(--cream); }
-  .view-row .n{ font-size:13px; }
+  .view-row .n{ font-size:11.5px; }
 
   .group-cards{ display:flex; flex-direction:column; gap:10px; padding:0 20px; margin-bottom:10px; }
   .group-card{ border:1px solid var(--dash-faint); border-radius:8px; padding:12px 14px; cursor:pointer; display:flex; align-items:center; gap:12px; }
@@ -299,6 +303,7 @@
 </head>
 <body>
   <div class="phone-frame">
+    <button class="top-settings-btn" id="settingsBtn" aria-label="Open settings">⚙</button>
     <div class="screen">
       <div class="brand">
         <h1>tally</h1>
@@ -324,7 +329,6 @@
         </select>
       </div>
       <div class="bottom-actions-row">
-        <button class="settings-btn" id="settingsBtn" aria-label="Open settings">☰</button>
         <button class="groups-btn" id="menuBtn" aria-label="Open groups menu"><span class="bars" aria-hidden="true">▦</span> Groups</button>
         <button class="fab" id="fabBtn" aria-label="Add prediction">+</button>
       </div>
@@ -332,7 +336,6 @@
 
     <div class="sheet-overlay" id="sheetOverlay"></div>
     <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="New prediction">
-      <div class="sheet-handle"></div>
       <div class="sheet-head"><h3>New prediction</h3><button class="sheet-close" id="sheetClose" aria-label="Close">✕</button></div>
 
       <div class="field-row">
@@ -807,8 +810,13 @@
     return res;
   }
 
-  function counterStatus(count,target){ return count>=target ? 'green' : 'yellow'; }
-  function ynStatus(outcome){ if(outcome==='yes') return 'green'; if(outcome==='no') return 'red'; return 'yellow'; }
+  function counterStatus(p){
+    const res = resolutionOf(p);
+    if(res === 'lost') return 'red';
+    if(res === 'won') return 'green';
+    return p.count > 0 ? 'yellow' : 'gray';
+  }
+  function ynStatus(outcome){ if(outcome==='yes') return 'green'; if(outcome==='no') return 'red'; return 'gray'; }
 
   function tallySVG(count, animateLast, statusClass){
     if(count===0) return '';
@@ -896,7 +904,10 @@
     const resolvedCount = st.won+st.lost;
     const winRate = resolvedCount>0 ? Math.round((st.won/resolvedCount)*100)+'% win rate' : 'No picks resolved yet';
     const isEditing = groupEditingId===g.id;
-    const isVoided = g.parlay && st.lost>0;
+    // Parlay: any lost leg voids the whole ticket. Plain group: only glow red once every
+    // pick in it lost (a clean sweep), mirroring the clean-sweep-of-wins rule for the green glow --
+    // a single loss among otherwise-winning picks in a non-parlay group isn't "didn't hit".
+    const isVoided = (g.parlay && st.lost>0) || (!g.parlay && st.total>0 && st.lost===st.total);
     const isAllWon = st.total>0 && st.won===st.total;
     const isSettled = st.total>0 && st.pending===0 && !isVoided && !isAllWon;
     const momentOpen = assignMomentOpenId === g.id;
@@ -970,7 +981,13 @@
     return `<select data-action="movegroup" data-id="${p.id}" aria-label="Move to group">${opts}</select>`;
   }
 
-  function statusLabel(cls){ return cls==='green' ? 'On track' : (cls==='yellow' ? 'Getting close' : (cls==='cancelled' ? 'Cancelled (parlay leg lost)' : 'Behind')); }
+  function statusLabel(cls){
+    if(cls==='green') return 'Hit';
+    if(cls==='yellow') return 'Counting';
+    if(cls==='red') return 'Missed';
+    if(cls==='cancelled') return 'Cancelled (parlay leg lost)';
+    return 'Unmarked';
+  }
 
   function cardHTML(p){
     const res = resolutionOf(p);
@@ -982,7 +999,7 @@
       : `<span class="card-text" data-action="edittext" data-id="${p.id}" tabindex="0" role="button" aria-label="Edit prediction: ${esc(p.text)}">${esc(p.text)}</span>`;
 
     if(p.type==='counter' || p.type==='overunder'){
-      dotClass = counterStatus(p.count, p.threshold);
+      dotClass = counterStatus(p);
       bottomHTML = `
         <div class="res-btns">
           <button class="res-btn won ${res==='won'?'active':''}" data-action="won" data-id="${p.id}" aria-label="Mark as won">✓</button>
