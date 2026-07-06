@@ -6,12 +6,27 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0B0F0E">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; manifest-src 'self'; worker-src 'self'; connect-src 'self'">
 <title>tally</title>
+<link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+  @font-face{ font-family:'Inter'; font-style:normal; font-weight:400; font-display:swap; src:url('fonts/inter-latin-ext.woff2') format('woff2'); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face{ font-family:'Inter'; font-style:normal; font-weight:400; font-display:swap; src:url('fonts/inter-latin.woff2') format('woff2'); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face{ font-family:'Inter'; font-style:normal; font-weight:500; font-display:swap; src:url('fonts/inter-latin-ext.woff2') format('woff2'); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face{ font-family:'Inter'; font-style:normal; font-weight:500; font-display:swap; src:url('fonts/inter-latin.woff2') format('woff2'); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face{ font-family:'Inter'; font-style:normal; font-weight:600; font-display:swap; src:url('fonts/inter-latin-ext.woff2') format('woff2'); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face{ font-family:'Inter'; font-style:normal; font-weight:600; font-display:swap; src:url('fonts/inter-latin.woff2') format('woff2'); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face{ font-family:'Inter'; font-style:normal; font-weight:700; font-display:swap; src:url('fonts/inter-latin-ext.woff2') format('woff2'); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face{ font-family:'Inter'; font-style:normal; font-weight:700; font-display:swap; src:url('fonts/inter-latin.woff2') format('woff2'); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face{ font-family:'JetBrains Mono'; font-style:normal; font-weight:500; font-display:swap; src:url('fonts/jbmono-latin-ext.woff2') format('woff2'); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face{ font-family:'JetBrains Mono'; font-style:normal; font-weight:500; font-display:swap; src:url('fonts/jbmono-latin.woff2') format('woff2'); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face{ font-family:'JetBrains Mono'; font-style:normal; font-weight:600; font-display:swap; src:url('fonts/jbmono-latin-ext.woff2') format('woff2'); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face{ font-family:'JetBrains Mono'; font-style:normal; font-weight:600; font-display:swap; src:url('fonts/jbmono-latin.woff2') format('woff2'); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face{ font-family:'JetBrains Mono'; font-style:normal; font-weight:700; font-display:swap; src:url('fonts/jbmono-latin-ext.woff2') format('woff2'); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face{ font-family:'JetBrains Mono'; font-style:normal; font-weight:700; font-display:swap; src:url('fonts/jbmono-latin.woff2') format('woff2'); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
 
   :root{
     --bg: #0B0F0E;
@@ -39,11 +54,15 @@
   :focus-visible{ outline:2px solid var(--blue); outline-offset:2px; }
 
   .phone-frame{
-    width: 100%; height: 100vh; height: 100dvh;
+    width: 100%; max-width: 520px; height: 100vh; height: 100dvh;
     background: var(--bg);
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
+    box-shadow: 0 0 60px rgba(0,0,0,0.5);
+  }
+  @media (min-width: 521px){
+    .phone-frame{ border-left:1px solid var(--dash-faint); border-right:1px solid var(--dash-faint); }
   }
   .screen{
     position:absolute; inset:0; overflow-y:auto; -webkit-overflow-scrolling:touch; padding-bottom: 158px; padding-top: 50px;
@@ -97,6 +116,14 @@
   }
   .card-group-row select:focus{ border-color:var(--blue); }
 
+  .card-copy-row{ margin: 0 0 6px 17px; display:flex; align-items:center; gap:6px; }
+  .card-copy-row .card-copy-label{ font-size:11px; color:var(--cream-dim); }
+  .card-copy-row select{
+    background:transparent; border:1px solid var(--dash-faint); border-radius:6px;
+    padding:4px 8px; color:var(--cream-dim); font-family:'Inter',sans-serif; font-size:11.5px; outline:none;
+  }
+  .card-copy-row select:focus{ border-color:var(--blue); }
+
   .card-controls-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-left:17px; }
 
   .res-btns{ display:flex; gap:8px; }
@@ -115,6 +142,20 @@
   .seg.filled.green{ background:var(--green); border-color:var(--green); }
   .seg.filled.new{ animation:segIn .22s ease-out; }
   @keyframes segIn{ from{ transform:scaleY(0.3); opacity:0.2; } to{ transform:scaleY(1); opacity:0.85; } }
+
+  /* every 5th count absorbs into one solid block */
+  .tally-block{ width:17px; height:15px; border-radius:2px; flex-shrink:0; border:1px solid var(--dash); background:var(--dash-faint); }
+  .tally-block.red{ background:var(--red); border-color:var(--red); }
+  .tally-block.yellow{ background:var(--yellow); border-color:var(--yellow); }
+  .tally-block.green{ background:var(--green); border-color:var(--green); }
+  .tally-block.new{ animation:segIn .22s ease-out; }
+
+  /* every 10th count absorbs two blocks into one hollow square */
+  .tally-square{ width:15px; height:15px; border-radius:2px; flex-shrink:0; box-sizing:border-box; background:transparent; border:2px solid var(--dash); }
+  .tally-square.red{ border-color:var(--red); box-shadow:0 0 4px rgba(240,104,95,.5); }
+  .tally-square.yellow{ border-color:var(--yellow); box-shadow:0 0 4px rgba(245,193,68,.5); }
+  .tally-square.green{ border-color:var(--green); box-shadow:0 0 4px rgba(79,206,126,.5); }
+  .tally-square.new{ animation:segIn .22s ease-out; }
 
   .right-controls{ display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
   .count-num{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:20px; color:var(--blue); min-width:20px; text-align:center; }
@@ -312,6 +353,22 @@
   .data-modal button.action{ flex:1; background:var(--blue); color:var(--bg); border:none; border-radius:7px; padding:10px; font-weight:700; font-size:13px; cursor:pointer; }
   .data-modal button.secondary{ flex:1; background:transparent; border:1px solid var(--dash); color:var(--cream-dim); border-radius:7px; padding:10px; font-weight:600; font-size:13px; cursor:pointer; }
   .data-modal-note{ font-size:11.5px; color:var(--cream-dim); margin-top:-6px; margin-bottom:14px; }
+
+  /* ---- Confirm modal ---- */
+  .confirm-overlay{ position:absolute; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:50; }
+  .confirm-overlay.open{ opacity:1; pointer-events:auto; }
+  .confirm-modal{
+    position:absolute; left:22px; right:22px; top:50%; transform:translateY(-50%) scale(0.96); opacity:0; pointer-events:none;
+    background:var(--bg); border:1px solid var(--dash); border-radius:14px; padding:20px; transition: all .18s ease; z-index:51;
+  }
+  .confirm-modal.open{ opacity:1; transform:translateY(-50%) scale(1); pointer-events:auto; }
+  .confirm-modal p{ font-size:14.5px; line-height:1.5; color:var(--cream); margin:0 0 18px; }
+  .confirm-btns{ display:flex; gap:8px; }
+  .confirm-btns button{ flex:1; border-radius:7px; padding:10px; font-weight:700; font-size:13px; cursor:pointer; font-family:'Inter',sans-serif; }
+  .confirm-btns .cancel{ background:transparent; border:1px solid var(--dash); color:var(--cream-dim); }
+  .confirm-btns .cancel:hover{ border-color:var(--blue); color:var(--cream); }
+  .confirm-btns .ok{ background:var(--red); border:none; color:var(--bg); }
+  .confirm-btns .ok.neutral{ background:var(--blue); }
 </style>
 </head>
 <body>
@@ -415,6 +472,15 @@
       <textarea id="importArea" placeholder="Paste JSON here…" aria-label="Data to import"></textarea>
       <div class="row-btns"><button class="secondary" id="importLoadBtn">Load data</button></div>
     </div>
+
+    <div class="confirm-overlay" id="confirmOverlay"></div>
+    <div class="confirm-modal" id="confirmModal" role="alertdialog" aria-modal="true" aria-labelledby="confirmMsg">
+      <p id="confirmMsg"></p>
+      <div class="confirm-btns">
+        <button class="cancel" id="confirmCancelBtn">Cancel</button>
+        <button class="ok" id="confirmOkBtn">Delete</button>
+      </div>
+    </div>
   </div>
 
 <script>
@@ -433,6 +499,7 @@
   let momentEditingId = null;
   let openMomentIds = new Set();
   let moveGroupOpenId = null;
+  let duplicateGroupOpenId = null;
   let assignMomentOpenId = null;
   let searchQuery = '';
   let sortMode = 'newest';
@@ -486,6 +553,11 @@
   const importArea = document.getElementById('importArea');
   const exportCopyBtn = document.getElementById('exportCopyBtn');
   const importLoadBtn = document.getElementById('importLoadBtn');
+  const confirmOverlay = document.getElementById('confirmOverlay');
+  const confirmModal = document.getElementById('confirmModal');
+  const confirmMsg = document.getElementById('confirmMsg');
+  const confirmCancelBtn = document.getElementById('confirmCancelBtn');
+  const confirmOkBtn = document.getElementById('confirmOkBtn');
 
   function uid(p){ return p+'_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7); }
   function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
@@ -561,8 +633,9 @@
   function renderSettingsStats(){
     settingsStats.textContent = `${predictions.length} prediction${predictions.length===1?'':'s'} · ${groups.length} group${groups.length===1?'':'s'} · ${moments.length} moment${moments.length===1?'':'s'}`;
   }
-  function clearAllData(){
-    if(!confirm('Delete all predictions, groups, and moments? This cannot be undone.')) return;
+  async function clearAllData(){
+    const ok = await confirmDialog('Delete all predictions, groups, and moments? This cannot be undone.', {confirmLabel:'Delete all'});
+    if(!ok) return;
     predictions = []; groups = []; moments = [];
     render(); saveData();
     closeSettingsPanel();
@@ -610,20 +683,67 @@
       showToast('Select-all applied — copy manually');
     }
   });
-  importLoadBtn.addEventListener('click', ()=>{
+  importLoadBtn.addEventListener('click', async ()=>{
     const raw = importArea.value.trim();
     if(!raw){ showToast("Paste data to import first"); return; }
+    let parsed;
     try{
-      const parsed = JSON.parse(raw);
+      parsed = JSON.parse(raw);
       if(!parsed || !Array.isArray(parsed.predictions)) throw new Error('bad shape');
-      groups = parsed.groups || [];
-      moments = parsed.moments || [];
-      predictions = parsed.predictions.map(p => ({ resolution:'pending', direction:'over', selectionLabel:'', resolutionManual:false, ...p }));
-      closeDataModal();
-      render(); saveData();
-      showToast('Data imported');
     }catch(e){
       showToast('Could not read that data — check the JSON');
+      return;
+    }
+    const hasExisting = predictions.length>0 || groups.length>0 || moments.length>0;
+    if(hasExisting){
+      const ok = await confirmDialog('Import will replace all current predictions, groups, and moments. Continue?', {confirmLabel:'Replace data'});
+      if(!ok) return;
+    }
+    groups = parsed.groups || [];
+    moments = parsed.moments || [];
+    predictions = parsed.predictions.map(p => ({ resolution:'pending', direction:'over', selectionLabel:'', resolutionManual:false, ...p }));
+    closeDataModal();
+    render(); saveData();
+    showToast('Data imported');
+  });
+
+  /* ---------- confirm modal ---------- */
+  let confirmCancelFn = null;
+  function confirmDialog(message, opts){
+    opts = opts || {};
+    return new Promise(resolve=>{
+      confirmMsg.textContent = message;
+      confirmOkBtn.textContent = opts.confirmLabel || 'Delete';
+      confirmOkBtn.classList.toggle('neutral', !!opts.neutral);
+      const prevFocus = document.activeElement;
+      confirmOverlay.classList.add('open'); confirmModal.classList.add('open');
+      setTimeout(()=> confirmOkBtn.focus(), 50);
+      function cleanup(result){
+        confirmOverlay.classList.remove('open'); confirmModal.classList.remove('open');
+        confirmOkBtn.removeEventListener('click', onOk);
+        confirmCancelBtn.removeEventListener('click', onCancel);
+        confirmOverlay.removeEventListener('click', onCancel);
+        confirmCancelFn = null;
+        if(prevFocus) prevFocus.focus();
+        resolve(result);
+      }
+      function onOk(){ cleanup(true); }
+      function onCancel(){ cleanup(false); }
+      confirmCancelFn = onCancel;
+      confirmOkBtn.addEventListener('click', onOk);
+      confirmCancelBtn.addEventListener('click', onCancel);
+      confirmOverlay.addEventListener('click', onCancel);
+    });
+  }
+  confirmModal.addEventListener('keydown', e=>{
+    if(!confirmModal.classList.contains('open')) return;
+    if(e.key==='Escape'){ confirmCancelFn && confirmCancelFn(); return; }
+    if(e.key==='Tab'){
+      const f = getFocusable(confirmModal);
+      if(f.length===0) return;
+      const first=f[0], last=f[f.length-1];
+      if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
     }
   });
 
@@ -698,13 +818,14 @@
     g.parlay = !g.parlay;
     render(); saveData();
   }
-  function deleteGroup(id){
+  async function deleteGroup(id){
     const g = groups.find(x=>x.id===id); if(!g) return;
     const count = predictions.filter(p=>p.groupId===id).length;
     const msg = count>0
       ? `Delete "${g.name}"? ${count} prediction${count===1?'':'s'} will become ungrouped.`
       : `Delete "${g.name}"?`;
-    if(!confirm(msg)) return;
+    const ok = await confirmDialog(msg);
+    if(!ok) return;
     groups = groups.filter(x=>x.id!==id);
     predictions.forEach(p=>{ if(p.groupId===id) p.groupId=null; });
     if(activeFilter===id) activeFilter='all';
@@ -733,13 +854,14 @@
     moments.push({id:uid('m'), name:t});
     render(); saveData();
   }
-  function deleteMoment(id){
+  async function deleteMoment(id){
     const m = moments.find(x=>x.id===id); if(!m) return;
     const count = groups.filter(g=>g.momentId===id).length;
     const msg = count>0
       ? `Delete "${m.name}"? ${count} group${count===1?'':'s'} will become unassigned.`
       : `Delete "${m.name}"?`;
-    if(!confirm(msg)) return;
+    const ok = await confirmDialog(msg);
+    if(!ok) return;
     moments = moments.filter(x=>x.id!==id);
     groups.forEach(g=>{ if(g.momentId===id) g.momentId=null; });
     render(); saveData();
@@ -786,15 +908,18 @@
       render(); saveData();
     });
   }
-  function duplicatePrediction(id){
+  function duplicateToGroup(id, groupId){
     const p = predictions.find(x=>x.id===id); if(!p) return;
+    const gid = groupId || null;
     predictions.unshift({
-      ...p, id:uid('p'), count:0,
+      ...p, id:uid('p'), count:0, groupId: gid,
       outcome: p.type==='yesno' ? 'pending' : null,
       resolution:'pending', resolutionManual:false,
       createdAt: Date.now()
     });
+    duplicateGroupOpenId = null;
     render(); saveData();
+    showToast(gid ? `Duplicated into "${groupName(gid)}"` : 'Duplicated (ungrouped)');
   }
   function autoResolve(p){
     if(p.resolutionManual) return;
@@ -852,13 +977,36 @@
 
   function tallySVG(count, animateLast, statusClass){
     if(count===0) return '';
-    const capped = Math.min(count, 30);
+    // Every 5 individual ticks absorb into one solid block; every two blocks
+    // (10 ticks) absorb further into one hollow square. Beyond MAX_SQUARES
+    // worth of counts, switch to a plain "+N" so the row can't grow unbounded.
+    const MAX_SQUARES = 10;
+    const squaresTotal = Math.floor(count/10);
+    let squares, blocks, segs, overflow;
+    if(squaresTotal > MAX_SQUARES){
+      squares = MAX_SQUARES; blocks = 0; segs = 0;
+      overflow = count - MAX_SQUARES*10;
+    } else {
+      squares = squaresTotal;
+      const rem = count % 10;
+      blocks = Math.floor(rem/5);
+      segs = rem % 5;
+      overflow = 0;
+    }
     let html = '';
-    for(let i=0;i<capped;i++){
-      const isNew = animateLast && i===capped-1;
+    for(let i=0;i<squares;i++){
+      const isNew = animateLast && overflow===0 && blocks===0 && segs===0 && i===squares-1;
+      html += `<span class="tally-square ${statusClass}${isNew?' new':''}"></span>`;
+    }
+    for(let i=0;i<blocks;i++){
+      const isNew = animateLast && overflow===0 && segs===0 && i===blocks-1;
+      html += `<span class="tally-block ${statusClass}${isNew?' new':''}"></span>`;
+    }
+    for(let i=0;i<segs;i++){
+      const isNew = animateLast && i===segs-1;
       html += `<span class="seg filled ${statusClass}${isNew?' new':''}"></span>`;
     }
-    if(count>30) html += `<span style="color:var(--cream-dim);font-size:11.5px;margin-left:4px;">+${count-30}</span>`;
+    if(overflow>0) html += `<span style="color:var(--cream-dim);font-size:11.5px;margin-left:4px;">+${overflow}</span>`;
     return html;
   }
 
@@ -1028,6 +1176,12 @@
     return `<select data-action="movegroup" data-id="${p.id}" aria-label="Move to group">${opts}</select>`;
   }
 
+  function duplicateGroupSelectHTML(p){
+    const opts = `<option value="" selected>Ungrouped</option>` +
+      groups.map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join('');
+    return `<select data-action="duplicategroup" data-id="${p.id}" aria-label="Duplicate into group">${opts}</select>`;
+  }
+
   function statusLabel(cls){
     if(cls==='green') return 'Hit';
     if(cls==='yellow') return 'Counting';
@@ -1077,16 +1231,18 @@
     if(eff === 'cancelled') dotClass = 'cancelled';
 
     const moveGroupOpen = moveGroupOpenId === p.id;
+    const duplicateGroupOpen = duplicateGroupOpenId === p.id;
 
     return `<div class="card ${eff==='cancelled'?'cancelled':''}">
       <div class="card-top">
         <span class="dot ${dotClass}" role="img" aria-label="Status: ${statusLabel(dotClass)}" title="${statusLabel(dotClass)}"></span>
         ${titleHTML}
-        <button class="icon-btn" data-action="duplicate" data-id="${p.id}" aria-label="Duplicate prediction">⧉</button>
+        <button class="icon-btn" data-action="duplicate-toggle" data-id="${p.id}" aria-label="Duplicate to group" aria-expanded="${duplicateGroupOpen}" title="Duplicate to group">⧉</button>
         <button class="icon-btn" data-action="movegroup-toggle" data-id="${p.id}" aria-label="Move to group" aria-expanded="${moveGroupOpen}" title="Move to group">📁</button>
         <button class="icon-btn danger" data-action="delete" data-id="${p.id}" aria-label="Delete prediction">✕</button>
       </div>
       ${subHTML}
+      ${duplicateGroupOpen ? `<div class="card-copy-row"><span class="card-copy-label">Copy to</span>${duplicateGroupSelectHTML(p)}</div>` : ''}
       ${moveGroupOpen ? `<div class="card-group-row">${groupSelectHTML(p)}</div>` : ''}
       <div class="card-controls-row">${bottomHTML}</div>
     </div>`;
@@ -1248,8 +1404,8 @@
     if(action==='inc') inc(id);
     else if(action==='dec') dec(id);
     else if(action==='delete') removePrediction(id);
-    else if(action==='duplicate') duplicatePrediction(id);
-    else if(action==='movegroup-toggle'){ moveGroupOpenId = (moveGroupOpenId===id) ? null : id; render(); }
+    else if(action==='duplicate-toggle'){ duplicateGroupOpenId = (duplicateGroupOpenId===id) ? null : id; moveGroupOpenId = null; render(); }
+    else if(action==='movegroup-toggle'){ moveGroupOpenId = (moveGroupOpenId===id) ? null : id; duplicateGroupOpenId = null; render(); }
     else if(action==='yes') setOutcome(id,'yes');
     else if(action==='no') setOutcome(id,'no');
     else if(action==='won') setResolution(id,'won');
@@ -1273,9 +1429,19 @@
     if(th){ setThreshold(th.dataset.id, th.value); return; }
     const mv = e.target.closest('[data-action="movegroup"]');
     if(mv){ moveGroup(mv.dataset.id, mv.value); moveGroupOpenId = null; render(); return; }
+    const dg = e.target.closest('[data-action="duplicategroup"]');
+    if(dg){ duplicateToGroup(dg.dataset.id, dg.value); return; }
   });
 
   loadData();
+
+  // No-op under Electron's file:// origin (service workers require a secure
+  // context), but registers for real on an https-hosted deployment.
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', ()=>{
+      navigator.serviceWorker.register('sw.js').catch(()=>{});
+    });
+  }
 })();
 </script>
 </body>
