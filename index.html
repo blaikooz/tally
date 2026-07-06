@@ -82,17 +82,21 @@
   .section-header .line{ flex:1; height:1px; background:var(--dash-faint); }
 
   .card{ background: rgba(237,234,224,0.03); border:1px solid var(--dash-faint); border-radius:8px; padding:11px 13px; margin-bottom:8px; }
+  .card.cancelled{ opacity:.6; }
   .card-top{ display:flex; align-items:center; gap:8px; margin-bottom:5px; }
   .dot{ width:9px; height:9px; border-radius:2.5px; flex-shrink:0; }
   .dot.red{ background:var(--red); box-shadow:0 0 5px rgba(240,104,95,.7); }
   .dot.yellow{ background:var(--yellow); box-shadow:0 0 5px rgba(245,193,68,.7); }
   .dot.green{ background:var(--green); box-shadow:0 0 5px rgba(79,206,126,.7); }
+  .dot.cancelled{ background:var(--dash); box-shadow:none; opacity:.55; }
   .card-text{ font-size:15px; font-weight:500; word-break:break-word; flex:1; min-width:0; cursor:text; border-radius:4px; padding:1px 3px; margin:-1px -3px; }
   .card-text:hover{ background:rgba(237,234,224,0.05); }
   .card-text-edit{
     flex:1; min-width:0; background:rgba(237,234,224,0.05); border:1px solid var(--blue); border-radius:4px;
     padding:1px 3px; margin:-1px -3px; color:var(--cream); font-family:'Inter',sans-serif; font-size:15px; font-weight:500; outline:none;
   }
+  .dup-btn{ background:none; border:none; color:var(--cream-dim); cursor:pointer; font-size:14px; flex-shrink:0; }
+  .dup-btn:hover{ color:var(--blue); }
   .del-btn{ background:none; border:none; color:var(--cream-dim); cursor:pointer; font-size:16px; flex-shrink:0; }
   .del-btn:hover{ color:var(--red); }
 
@@ -111,6 +115,9 @@
   .res-btn{ width:23px; height:23px; border-radius:50%; border:1px solid var(--dash); background:transparent; color:var(--cream-dim); font-size:11px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
   .res-btn.won.active{ background:rgba(143,192,138,.2); border-color:var(--green); color:var(--green); border-style:solid; }
   .res-btn.lost.active{ background:rgba(208,128,118,.2); border-color:var(--red); color:var(--red); border-style:solid; }
+
+  .gparlay-btn{ background:transparent; border:1px solid var(--dash); color:var(--cream-dim); border-radius:6px; padding:3px 9px; font-size:10.5px; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; margin-top:4px; }
+  .gparlay-btn.active{ background:rgba(245,193,68,.18); border-color:var(--yellow); color:var(--yellow); }
 
   .tally-area{ display:flex; align-items:center; gap:2.5px; flex-wrap:wrap; min-height:16px; }
   .seg{ width:6px; height:15px; border-radius:2px; background:var(--dash-faint); border:1px solid var(--dash); flex-shrink:0; }
@@ -206,6 +213,7 @@
   .group-cards{ display:flex; flex-direction:column; gap:10px; padding:0 20px; margin-bottom:10px; }
   .group-card{ border:1px solid var(--dash-faint); border-radius:8px; padding:12px 14px; cursor:pointer; display:flex; align-items:center; gap:12px; }
   .group-card.active{ border-color:var(--blue); background:var(--blue-dim); }
+  .group-card.settled{ opacity:.55; }
   .group-card .ginfo{ flex:1; min-width:0; }
   .group-card .gname-row{ display:flex; align-items:center; gap:6px; }
   .group-card .gname{ font-family:'JetBrains Mono',monospace; font-size:20px; color:var(--cream); }
@@ -586,7 +594,12 @@
   /* ---------- groups ---------- */
   function addGroup(name){
     const t = name.trim(); if(!t) return;
-    groups.push({id:uid('g'), name:t});
+    groups.push({id:uid('g'), name:t, parlay:false});
+    render(); saveData();
+  }
+  function toggleParlay(id){
+    const g = groups.find(x=>x.id===id); if(!g) return;
+    g.parlay = !g.parlay;
     render(); saveData();
   }
   function deleteGroup(id){
@@ -639,6 +652,16 @@
       render(); saveData();
     });
   }
+  function duplicatePrediction(id){
+    const p = predictions.find(x=>x.id===id); if(!p) return;
+    predictions.unshift({
+      ...p, id:uid('p'), count:0,
+      outcome: p.type==='yesno' ? 'pending' : null,
+      resolution:'pending', resolutionManual:false,
+      createdAt: Date.now()
+    });
+    render(); saveData();
+  }
   function autoResolve(p){
     if(p.resolutionManual) return;
     if(p.type==='counter' || p.type==='overunder'){
@@ -673,6 +696,18 @@
     return p.resolution || 'pending';
   }
 
+  function effectiveStatus(p){
+    const res = resolutionOf(p);
+    if(res === 'lost') return 'lost';
+    const g = p.groupId ? groups.find(x=>x.id===p.groupId) : null;
+    if(g && g.parlay){
+      const hasLostSibling = predictions.some(s =>
+        s.groupId === p.groupId && s.id !== p.id && resolutionOf(s) === 'lost');
+      if(hasLostSibling) return 'cancelled';
+    }
+    return res;
+  }
+
   function counterStatus(count,target){ if(count<=0) return 'red'; const r=count/target; if(r<1/3) return 'red'; if(r<2/3) return 'yellow'; return 'green'; }
   function ynStatus(outcome){ if(outcome==='yes') return 'green'; if(outcome==='no') return 'red'; return 'yellow'; }
 
@@ -688,7 +723,7 @@
     return html;
   }
 
-  function dotWheelSVG(total, met, size){
+  function dotWheelSVG(total, won, lost, cancelled, size){
     size = size || 40;
     const cx=size/2, cy=size/2, r=size/2-5, dotR=Math.max(2.2, Math.min(3.6, 14/Math.max(total,1)));
     let dots = '';
@@ -699,27 +734,36 @@
         const angle = (i/total)*2*Math.PI - Math.PI/2;
         const x = cx + r*Math.cos(angle);
         const y = cy + r*Math.sin(angle);
-        const isMet = i < met;
-        dots += `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="${dotR}" fill="${isMet?'var(--green)':'none'}" stroke="${isMet?'var(--green)':'var(--dash)'}" stroke-width="1.4"/>`;
+        let fill='none', stroke='var(--dash)';
+        if(i < won){ fill='var(--green)'; stroke='var(--green)'; }
+        else if(i < won+lost){ fill='var(--red)'; stroke='var(--red)'; }
+        else if(i < won+lost+cancelled){ fill='var(--dash)'; stroke='var(--dash)'; }
+        dots += `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="${dotR}" fill="${fill}" stroke="${stroke}" stroke-width="1.4"/>`;
       }
     }
-    const centerText = total>0 ? `<text x="${cx}" y="${cy+4}" text-anchor="middle" font-size="${size*0.26}" font-family="'JetBrains Mono',monospace" font-weight="700" fill="var(--cream-dim)">${met}/${total}</text>` : '';
-    return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="${met} of ${total} won">${dots}${centerText}</svg>`;
+    const centerText = total>0 ? `<text x="${cx}" y="${cy+4}" text-anchor="middle" font-size="${size*0.26}" font-family="'JetBrains Mono',monospace" font-weight="700" fill="var(--cream-dim)">${won}/${total}</text>` : '';
+    return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="${won} won, ${lost} lost of ${total}">${dots}${centerText}</svg>`;
   }
 
   function groupName(id){ const g=groups.find(x=>x.id===id); return g?g.name:null; }
 
   function statsFor(list){
-    let pending=0,won=0,lost=0;
-    list.forEach(p=>{ const r=resolutionOf(p); if(r==='won')won++; else if(r==='lost')lost++; else pending++; });
-    return {pending,won,lost,total:list.length};
+    let pending=0,won=0,lost=0,cancelled=0;
+    list.forEach(p=>{
+      const s=effectiveStatus(p);
+      if(s==='won')won++;
+      else if(s==='lost')lost++;
+      else if(s==='cancelled')cancelled++;
+      else pending++;
+    });
+    return {pending,won,lost,cancelled,total:list.length};
   }
 
   function filteredList(){
     if(activeFilter==='all') return predictions;
     if(activeFilter==='ungrouped') return predictions.filter(p=>!p.groupId);
-    if(activeFilter==='active') return predictions.filter(p=>resolutionOf(p)==='pending');
-    if(activeFilter==='resolved') return predictions.filter(p=>resolutionOf(p)!=='pending');
+    if(activeFilter==='active') return predictions.filter(p=>effectiveStatus(p)==='pending');
+    if(activeFilter==='resolved') return predictions.filter(p=>effectiveStatus(p)!=='pending');
     return predictions.filter(p=>p.groupId===activeFilter);
   }
 
@@ -730,7 +774,7 @@
       out = out.filter(p=>p.text.toLowerCase().includes(q));
     }
     out = out.slice();
-    const statusRank = p => { const r=resolutionOf(p); return r==='pending'?0:(r==='won'?1:2); };
+    const statusRank = p => { const s=effectiveStatus(p); return s==='pending'?0:(s==='won'?1:(s==='lost'?2:3)); };
     if(sortMode==='newest') out.sort((a,b)=>b.createdAt-a.createdAt);
     else if(sortMode==='oldest') out.sort((a,b)=>a.createdAt-b.createdAt);
     else if(sortMode==='az') out.sort((a,b)=>a.text.localeCompare(b.text));
@@ -741,8 +785,8 @@
   function renderViewRows(){
     viewRows.innerHTML = `
       <div class="view-row ${activeFilter==='all'?'active':''}" data-filter="all"><span class="name">All</span><span class="n">${predictions.length}</span></div>
-      <div class="view-row ${activeFilter==='active'?'active':''}" data-filter="active"><span class="name">Active</span><span class="n">${predictions.filter(p=>resolutionOf(p)==='pending').length}</span></div>
-      <div class="view-row ${activeFilter==='resolved'?'active':''}" data-filter="resolved"><span class="name">Resolved</span><span class="n">${predictions.filter(p=>resolutionOf(p)!=='pending').length}</span></div>
+      <div class="view-row ${activeFilter==='active'?'active':''}" data-filter="active"><span class="name">Active</span><span class="n">${predictions.filter(p=>effectiveStatus(p)==='pending').length}</span></div>
+      <div class="view-row ${activeFilter==='resolved'?'active':''}" data-filter="resolved"><span class="name">Resolved</span><span class="n">${predictions.filter(p=>effectiveStatus(p)!=='pending').length}</span></div>
       <div class="view-row ${activeFilter==='ungrouped'?'active':''}" data-filter="ungrouped"><span class="name">Ungrouped</span><span class="n">${predictions.filter(p=>!p.groupId).length}</span></div>
     `;
   }
@@ -754,8 +798,9 @@
       const resolvedCount = st.won+st.lost;
       const winRate = resolvedCount>0 ? Math.round((st.won/resolvedCount)*100)+'% win rate' : 'No picks resolved yet';
       const isEditing = groupEditingId===g.id;
-      return `<div class="group-card ${activeFilter===g.id?'active':''}" data-filter="${isEditing?'':g.id}">
-        ${dotWheelSVG(st.total, st.won, 40)}
+      const isSettled = st.total>0 && st.pending===0;
+      return `<div class="group-card ${activeFilter===g.id?'active':''} ${isSettled?'settled':''}" data-filter="${isEditing?'':g.id}">
+        ${dotWheelSVG(st.total, st.won, st.lost, st.cancelled, 40)}
         <div class="ginfo">
           <div class="gname-row">
             ${isEditing
@@ -764,6 +809,7 @@
           </div>
           <div class="gpicks">${st.total} pick${st.total===1?'':'s'}</div>
           <div class="gwinrate">${winRate}</div>
+          <button class="gparlay-btn ${g.parlay?'active':''}" data-action="toggleparlay" data-id="${g.id}" aria-pressed="${!!g.parlay}" title="Parlay: one lost pick voids the rest of this group">Parlay</button>
         </div>
         <span class="gdel" data-delgroup="${g.id}" role="button" tabindex="0" aria-label="Delete group ${esc(g.name)}">✕</span>
       </div>`;
@@ -783,10 +829,11 @@
     return `<select data-action="movegroup" data-id="${p.id}" aria-label="Move to group">${opts}</select>`;
   }
 
-  function statusLabel(cls){ return cls==='green' ? 'On track' : (cls==='yellow' ? 'Getting close' : 'Behind'); }
+  function statusLabel(cls){ return cls==='green' ? 'On track' : (cls==='yellow' ? 'Getting close' : (cls==='cancelled' ? 'Cancelled (parlay leg lost)' : 'Behind')); }
 
   function cardHTML(p){
     const res = resolutionOf(p);
+    const eff = effectiveStatus(p);
     let dotClass, subHTML='', bottomHTML;
     const isEditingText = editingId===p.id;
     const titleHTML = isEditingText
@@ -822,10 +869,13 @@
         <span></span>`;
     }
 
-    return `<div class="card">
+    if(eff === 'cancelled') dotClass = 'cancelled';
+
+    return `<div class="card ${eff==='cancelled'?'cancelled':''}">
       <div class="card-top">
         <span class="dot ${dotClass}" role="img" aria-label="Status: ${statusLabel(dotClass)}" title="${statusLabel(dotClass)}"></span>
         ${titleHTML}
+        <button class="dup-btn" data-action="duplicate" data-id="${p.id}" aria-label="Duplicate prediction">⧉</button>
         <button class="del-btn" data-action="delete" data-id="${p.id}" aria-label="Delete prediction">✕</button>
       </div>
       ${subHTML}
@@ -880,6 +930,8 @@
     if(del){ e.stopPropagation(); deleteGroup(del.dataset.delgroup); return; }
     const rename = e.target.closest('[data-action="grouprename"]');
     if(rename){ e.stopPropagation(); startRenameGroup(rename.dataset.id); return; }
+    const parlayBtn = e.target.closest('[data-action="toggleparlay"]');
+    if(parlayBtn){ e.stopPropagation(); toggleParlay(parlayBtn.dataset.id); return; }
     if(e.target.closest('.gname-edit')) return;
     const card = e.target.closest('[data-filter]'); if(!card || !card.dataset.filter) return;
     activeFilter = card.dataset.filter; render(); closeDrawer();
@@ -939,6 +991,7 @@
     if(action==='inc') inc(id);
     else if(action==='dec') dec(id);
     else if(action==='delete') removePrediction(id);
+    else if(action==='duplicate') duplicatePrediction(id);
     else if(action==='yes') setOutcome(id,'yes');
     else if(action==='no') setOutcome(id,'no');
     else if(action==='won') setResolution(id,'won');
