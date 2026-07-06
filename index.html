@@ -56,13 +56,13 @@
 
   .topbar{
     position:absolute; top:0; left:0; right:0; z-index:10;
-    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    display:flex; align-items:center; justify-content:flex-end;
     padding:8px 14px; background:var(--bg); border-bottom:1px solid var(--dash-faint);
     -webkit-app-region: drag;
   }
-  .topbar h1{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:22px; margin:0; letter-spacing:0.5px; }
+  .topbar h1{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); font-family:'JetBrains Mono',monospace; font-weight:700; font-size:22px; margin:0; letter-spacing:0.5px; }
 
-  .label-caps{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:1.4px; color:var(--cream-dim); text-transform:uppercase; font-weight:600; padding: 0 22px; margin-bottom:9px; }
+  .label-caps{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:1.4px; color:var(--cream-dim); text-transform:uppercase; font-weight:600; padding: 0 20px; margin-bottom:8px; }
 
   .list-wrap{ padding: 10px 22px 10px; }
   .empty{ text-align:center; color:var(--cream-dim); font-size:16px; padding:56px 10px; }
@@ -204,7 +204,7 @@
   /* ---- Drawer ---- */
   .drawer-overlay{ position:absolute; top:50px; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:24; }
   .drawer-overlay.open{ opacity:1; pointer-events:auto; }
-  .drawer{ position:absolute; top:50px; bottom:0; left:0; width:78%; max-width:300px; background:var(--bg); border-right:1px solid var(--dash-faint); border-top-right-radius:16px; transform:translateX(-100%); transition:transform .25s ease, visibility .25s; visibility:hidden; z-index:25; padding: 22px 0 22px; overflow-y:auto; }
+  .drawer{ position:absolute; top:50px; bottom:0; left:0; width:78%; max-width:300px; background:var(--bg); border-right:1px solid var(--dash-faint); border-top-right-radius:16px; transform:translateX(-100%); transition:transform .25s ease, visibility .25s; visibility:hidden; z-index:25; padding: 18px 0 18px; overflow-y:auto; }
   .drawer.open{ transform:translateX(0); visibility:visible; }
   .drawer.right{ left:auto; right:0; border-right:none; border-left:1px solid var(--dash-faint); border-top-right-radius:0; border-top-left-radius:16px; transform:translateX(100%); }
   .drawer.right.open{ transform:translateX(0); }
@@ -245,8 +245,6 @@
   .group-card .gdel{ color:var(--cream-dim); font-size:13px; }
   .group-card .gdel:hover{ color:var(--red); }
 
-  .section-sub-header{ font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--cream-dim); margin:2px 0 2px; }
-
   .new-group-btn{ margin: 0 20px; border: 1px solid var(--dash); background:transparent; color:var(--cream-dim); border-radius:7px; padding:12px 14px; font-size:14px; text-align:left; cursor:pointer; font-family:'Inter',sans-serif; width:calc(100% - 40px); }
   .new-group-btn:hover{ border-color:var(--blue); color:var(--cream); }
   .group-add-inline{ display:flex; gap:8px; margin:0 20px; }
@@ -255,7 +253,10 @@
   .group-add-inline button{ background:var(--blue); color:var(--bg); border:none; border-radius:6px; padding:0 16px; font-weight:700; font-size:14.5px; cursor:pointer; }
 
   .moment-cards{ display:flex; flex-direction:column; gap:8px; padding:0 20px; margin-bottom:10px; }
-  .moment-card{ border:1px solid var(--dash-faint); border-radius:8px; padding:10px 14px; display:flex; align-items:center; gap:12px; }
+  .moment-card{ border:1px solid var(--dash-faint); border-radius:8px; }
+  .moment-card.open{ border-color:var(--dash); }
+  .moment-card-row{ padding:10px 14px; display:flex; align-items:center; gap:10px; cursor:pointer; }
+  .moment-chevron{ color:var(--cream-dim); font-size:11px; flex-shrink:0; width:10px; text-align:center; }
   .moment-card .minfo{ flex:1; min-width:0; }
   .moment-card .mname-row{ display:flex; align-items:center; gap:6px; }
   .moment-card .mname{ font-family:'JetBrains Mono',monospace; font-size:17px; color:var(--cream); }
@@ -265,6 +266,14 @@
   .moment-card .mgroups{ font-size:11.5px; color:var(--cream-dim); margin-top:2px; }
   .moment-card .mdel{ color:var(--cream-dim); font-size:13px; flex-shrink:0; cursor:pointer; }
   .moment-card .mdel:hover{ color:var(--red); }
+  .moment-dots{ display:flex; gap:4px; flex-wrap:wrap; margin-top:5px; }
+  .moment-dot{ width:8px; height:8px; border-radius:50%; background:var(--dash); flex-shrink:0; }
+  .moment-dot.green{ background:var(--green); box-shadow:0 0 4px rgba(79,206,126,.6); }
+  .moment-dot.red{ background:var(--red); box-shadow:0 0 4px rgba(240,104,95,.6); }
+  .moment-dot.yellow{ background:var(--yellow); box-shadow:0 0 4px rgba(245,193,68,.6); }
+  .moment-groups{ padding:0 10px 10px 10px; }
+  .moment-groups .group-card{ margin-top:8px; }
+  .moment-empty{ font-size:12.5px; color:var(--cream-dim); padding:2px 4px 6px; }
 
   .new-moment-btn{ margin: 0 20px; border: 1px solid var(--dash); background:transparent; color:var(--cream-dim); border-radius:7px; padding:12px 14px; font-size:14px; text-align:left; cursor:pointer; font-family:'Inter',sans-serif; width:calc(100% - 40px); }
   .new-moment-btn:hover{ border-color:var(--blue); color:var(--cream); }
@@ -422,6 +431,7 @@
   let editingId = null, editingOriginal = '';
   let groupEditingId = null;
   let momentEditingId = null;
+  let openMomentIds = new Set();
   let moveGroupOpenId = null;
   let assignMomentOpenId = null;
   let searchQuery = '';
@@ -745,6 +755,10 @@
     const el = momentCards.querySelector('.mname-edit');
     if(el){ el.focus(); el.select(); }
   }
+  function toggleMomentOpen(id){
+    if(openMomentIds.has(id)) openMomentIds.delete(id); else openMomentIds.add(id);
+    render();
+  }
 
   /* ---------- predictions ---------- */
   function addPrediction(){
@@ -873,12 +887,15 @@
   function groupName(id){ const g=groups.find(x=>x.id===id); return g?g.name:null; }
 
   function statsFor(list){
+    // Raw won/lost always count as won/lost (a leg that actually hit or missed its own
+    // target reads as such regardless of a parlay voiding the rest of the ticket) --
+    // only a still-pending leg can be reclassified as "cancelled" by the parlay cascade.
     let pending=0,won=0,lost=0,cancelled=0;
     list.forEach(p=>{
-      const s=effectiveStatus(p);
-      if(s==='won')won++;
-      else if(s==='lost')lost++;
-      else if(s==='cancelled')cancelled++;
+      const raw = resolutionOf(p);
+      if(raw==='won') won++;
+      else if(raw==='lost') lost++;
+      else if(effectiveStatus(p)==='cancelled') cancelled++;
       else pending++;
     });
     return {pending,won,lost,cancelled,total:list.length};
@@ -916,17 +933,29 @@
     `;
   }
 
-  function groupCardHTML(g){
+  function groupStats(g){
     const items = predictions.filter(p=>p.groupId===g.id);
     const st = statsFor(items);
-    const resolvedCount = st.won+st.lost;
-    const winRate = resolvedCount>0 ? Math.round((st.won/resolvedCount)*100)+'% win rate' : 'No picks resolved yet';
-    const isEditing = groupEditingId===g.id;
     // Parlay: any lost leg voids the whole ticket. Plain group: only glow red once every
     // pick in it lost (a clean sweep), mirroring the clean-sweep-of-wins rule for the green glow --
     // a single loss among otherwise-winning picks in a non-parlay group isn't "didn't hit".
     const isVoided = (g.parlay && st.lost>0) || (!g.parlay && st.total>0 && st.lost===st.total);
     const isAllWon = st.total>0 && st.won===st.total;
+    return { st, isVoided, isAllWon };
+  }
+  function groupStateColor(g){
+    const { st, isVoided, isAllWon } = groupStats(g);
+    if(isVoided) return 'red';
+    if(isAllWon) return 'green';
+    if(st.total===0) return 'gray';
+    return 'yellow';
+  }
+
+  function groupCardHTML(g){
+    const { st, isVoided, isAllWon } = groupStats(g);
+    const resolvedCount = st.won+st.lost;
+    const winRate = resolvedCount>0 ? Math.round((st.won/resolvedCount)*100)+'% win rate' : 'No picks resolved yet';
+    const isEditing = groupEditingId===g.id;
     const isSettled = st.total>0 && st.pending===0 && !isVoided && !isAllWon;
     const momentOpen = assignMomentOpenId === g.id;
     const momentOpts = `<option value="" ${!g.momentId?'selected':''}>No moment</option>` +
@@ -952,36 +981,36 @@
   }
 
   function renderGroupCards(){
-    if(moments.length===0){
-      groupCards.innerHTML = groups.map(groupCardHTML).join('');
-    } else {
-      let html = '';
-      moments.forEach(m=>{
-        const items = groups.filter(g=>g.momentId===m.id);
-        if(items.length===0) return;
-        html += `<div class="section-sub-header">${esc(m.name)}</div>` + items.map(groupCardHTML).join('');
-      });
-      const unassigned = groups.filter(g=>!g.momentId);
-      if(unassigned.length>0) html += `<div class="section-sub-header">Unassigned</div>` + unassigned.map(groupCardHTML).join('');
-      groupCards.innerHTML = html;
-    }
+    // Groups that belong to a moment are only shown by opening that moment (see
+    // renderMomentCards); this list is either everything (no moments in use yet) or
+    // just the groups nobody has filed under a moment.
+    const list = moments.length===0 ? groups : groups.filter(g=>!g.momentId);
+    groupCards.innerHTML = list.map(groupCardHTML).join('');
     groupAddArea.innerHTML = `<button class="new-group-btn" id="newGroupToggle">+ New group</button>`;
   }
 
   function renderMomentCards(){
     momentCards.innerHTML = moments.map(m=>{
-      const count = groups.filter(g=>g.momentId===m.id).length;
+      const memberGroups = groups.filter(g=>g.momentId===m.id);
+      const count = memberGroups.length;
       const isEditing = momentEditingId===m.id;
-      return `<div class="moment-card">
-        <div class="minfo">
-          <div class="mname-row">
-            ${isEditing
-              ? `<input class="mname-edit" data-action="momentrename-input" data-id="${m.id}" value="${esc(m.name)}" maxlength="40">`
-              : `<span class="mname">${esc(m.name)}</span><button class="medit-btn" data-action="momentrename" data-id="${m.id}" aria-label="Rename moment" title="Rename">✎</button>`}
+      const isOpen = openMomentIds.has(m.id);
+      const dots = memberGroups.map(g=>`<span class="moment-dot ${groupStateColor(g)}" title="${esc(g.name)}"></span>`).join('');
+      return `<div class="moment-card ${isOpen?'open':''}">
+        <div class="moment-card-row" data-action="momenttoggle" data-id="${m.id}" role="button" tabindex="0" aria-expanded="${isOpen}">
+          <span class="moment-chevron">${isOpen?'▾':'▸'}</span>
+          <div class="minfo">
+            <div class="mname-row">
+              ${isEditing
+                ? `<input class="mname-edit" data-action="momentrename-input" data-id="${m.id}" value="${esc(m.name)}" maxlength="40">`
+                : `<span class="mname">${esc(m.name)}</span><button class="medit-btn" data-action="momentrename" data-id="${m.id}" aria-label="Rename moment" title="Rename">✎</button>`}
+            </div>
+            <div class="mgroups">${count} group${count===1?'':'s'}</div>
+            ${count>0 ? `<div class="moment-dots">${dots}</div>` : ''}
           </div>
-          <div class="mgroups">${count} group${count===1?'':'s'}</div>
+          <span class="mdel" data-delmoment="${m.id}" role="button" tabindex="0" aria-label="Delete moment ${esc(m.name)}">✕</span>
         </div>
-        <span class="mdel" data-delmoment="${m.id}" role="button" tabindex="0" aria-label="Delete moment ${esc(m.name)}">✕</span>
+        ${isOpen ? `<div class="moment-groups">${count>0 ? memberGroups.map(groupCardHTML).join('') : '<div class="moment-empty">No groups yet</div>'}</div>` : ''}
       </div>`;
     }).join('');
     momentAddArea.innerHTML = `<button class="new-moment-btn" id="newMomentToggle">+ New moment</button>`;
@@ -1106,7 +1135,18 @@
     activeFilter = row.dataset.filter; render(); closeDrawer();
     if(screenEl) screenEl.scrollTop = 0;
   });
-  groupCards.addEventListener('click', e=>{
+  // Group cards can render either in the flat #groupCards list or nested inside an
+  // open moment's accordion in #momentCards, so both containers share the same
+  // group-card + moment-card interaction handlers.
+  function onGroupOrMomentClick(e){
+    const toggleM = e.target.closest('[data-action="momenttoggle"]');
+    if(toggleM){ e.stopPropagation(); toggleMomentOpen(toggleM.dataset.id); return; }
+    const delM = e.target.closest('[data-delmoment]');
+    if(delM){ e.stopPropagation(); deleteMoment(delM.dataset.delmoment); return; }
+    const renameM = e.target.closest('[data-action="momentrename"]');
+    if(renameM){ e.stopPropagation(); startRenameMoment(renameM.dataset.id); return; }
+    if(e.target.closest('.mname-edit')) return;
+
     const del = e.target.closest('[data-delgroup]');
     if(del){ e.stopPropagation(); deleteGroup(del.dataset.delgroup); return; }
     const rename = e.target.closest('[data-action="grouprename"]');
@@ -1119,8 +1159,18 @@
     const card = e.target.closest('[data-filter]'); if(!card || !card.dataset.filter) return;
     activeFilter = card.dataset.filter; render(); closeDrawer();
     if(screenEl) screenEl.scrollTop = 0;
-  });
-  groupCards.addEventListener('keydown', e=>{
+  }
+  function onGroupOrMomentKeydown(e){
+    const toggleM = e.target.closest('[data-action="momenttoggle"]');
+    if(toggleM && (e.key==='Enter' || e.key===' ')){ e.preventDefault(); toggleMomentOpen(toggleM.dataset.id); return; }
+    const delM = e.target.closest('[data-delmoment]');
+    if(delM && (e.key==='Enter' || e.key===' ')){ e.preventDefault(); deleteMoment(delM.dataset.delmoment); return; }
+    const mInput = e.target.closest('.mname-edit');
+    if(mInput){
+      if(e.key==='Enter'){ e.target.blur(); }
+      else if(e.key==='Escape'){ momentEditingId=null; render(); }
+      return;
+    }
     const del = e.target.closest('[data-delgroup]');
     if(del && (e.key==='Enter' || e.key===' ')){ e.preventDefault(); deleteGroup(del.dataset.delgroup); return; }
     const input = e.target.closest('.gname-edit');
@@ -1128,15 +1178,25 @@
       if(e.key==='Enter'){ e.target.blur(); }
       else if(e.key==='Escape'){ groupEditingId=null; render(); }
     }
-  });
-  groupCards.addEventListener('focusout', e=>{
+  }
+  function onGroupOrMomentFocusout(e){
+    const mInput = e.target.closest('.mname-edit');
+    if(mInput){ commitRenameMoment(mInput.dataset.id, mInput.value); return; }
     const input = e.target.closest('.gname-edit');
     if(input) commitRenameGroup(input.dataset.id, input.value);
-  });
-  groupCards.addEventListener('change', e=>{
+  }
+  function onGroupOrMomentChange(e){
     const mv = e.target.closest('[data-action="assignmoment"]');
     if(mv){ moveGroupToMoment(mv.dataset.id, mv.value); assignMomentOpenId = null; render(); return; }
-  });
+  }
+  groupCards.addEventListener('click', onGroupOrMomentClick);
+  groupCards.addEventListener('keydown', onGroupOrMomentKeydown);
+  groupCards.addEventListener('focusout', onGroupOrMomentFocusout);
+  groupCards.addEventListener('change', onGroupOrMomentChange);
+  momentCards.addEventListener('click', onGroupOrMomentClick);
+  momentCards.addEventListener('keydown', onGroupOrMomentKeydown);
+  momentCards.addEventListener('focusout', onGroupOrMomentFocusout);
+  momentCards.addEventListener('change', onGroupOrMomentChange);
 
   groupAddArea.addEventListener('click', e=>{
     if(e.target.id==='newGroupToggle'){
@@ -1147,27 +1207,6 @@
     }
   });
   groupAddArea.addEventListener('keydown', e=>{ if(e.target.id==='newGroupInput' && e.key==='Enter') addGroup(e.target.value); });
-
-  /* ---------- events: moments ---------- */
-  momentCards.addEventListener('click', e=>{
-    const del = e.target.closest('[data-delmoment]');
-    if(del){ e.stopPropagation(); deleteMoment(del.dataset.delmoment); return; }
-    const rename = e.target.closest('[data-action="momentrename"]');
-    if(rename){ e.stopPropagation(); startRenameMoment(rename.dataset.id); return; }
-  });
-  momentCards.addEventListener('keydown', e=>{
-    const del = e.target.closest('[data-delmoment]');
-    if(del && (e.key==='Enter' || e.key===' ')){ e.preventDefault(); deleteMoment(del.dataset.delmoment); return; }
-    const input = e.target.closest('.mname-edit');
-    if(input){
-      if(e.key==='Enter'){ e.target.blur(); }
-      else if(e.key==='Escape'){ momentEditingId=null; render(); }
-    }
-  });
-  momentCards.addEventListener('focusout', e=>{
-    const input = e.target.closest('.mname-edit');
-    if(input) commitRenameMoment(input.dataset.id, input.value);
-  });
 
   momentAddArea.addEventListener('click', e=>{
     if(e.target.id==='newMomentToggle'){
