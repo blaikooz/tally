@@ -123,8 +123,9 @@
 
   .right-controls{ display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
   .count-num{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:20px; color:var(--blue); min-width:20px; text-align:center; }
-  .target-edit{ width:38px; background:transparent; border:none; border-bottom:1px solid var(--dash); color:var(--cream-dim); font-family:'JetBrains Mono',monospace; font-weight:700; font-size:20px; text-align:center; outline:none; }
+  .target-edit{ width:58px; background:transparent; border:none; border-bottom:1px solid var(--dash); color:var(--cream-dim); font-family:'JetBrains Mono',monospace; font-weight:700; font-size:20px; text-align:center; outline:none; -moz-appearance:textfield; }
   .target-edit:focus{ border-color:var(--blue); color:var(--cream); }
+  .target-edit::-webkit-outer-spin-button, .target-edit::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
   .of-target{ color:var(--cream-dim); font-size:12px; }
 
   .stepper{ display:flex; gap:5px; }
