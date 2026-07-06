@@ -203,9 +203,12 @@
   .drawer-overlay.open{ opacity:1; pointer-events:auto; }
   .drawer{ position:absolute; top:140px; bottom:0; left:0; width:78%; max-width:300px; background:var(--bg); border-right:1px solid var(--dash-faint); border-top-right-radius:16px; transform:translateX(-100%); transition:transform .25s ease, visibility .25s; visibility:hidden; z-index:25; padding: 22px 0 22px; overflow-y:auto; }
   .drawer.open{ transform:translateX(0); visibility:visible; }
+  .drawer.right{ left:auto; right:0; border-right:none; border-left:1px solid var(--dash-faint); border-top-right-radius:0; border-top-left-radius:16px; transform:translateX(100%); }
+  .drawer.right.open{ transform:translateX(0); }
   .drawer-head{ display:flex; justify-content:space-between; align-items:center; padding:0 20px 16px; }
   .drawer-head h3{ font-family:'JetBrains Mono',monospace; font-size:26px; margin:0; }
   .drawer-close{ background:none; border:none; color:var(--cream-dim); font-size:18px; cursor:pointer; }
+  .drawer-body{ padding:0 20px; }
 
   .view-rows{ display:flex; flex-direction:column; gap:8px; padding: 0 20px; margin-bottom:22px; }
   .view-row{ display:flex; justify-content:space-between; align-items:center; padding:12px 15px; border-radius:6px; cursor:pointer; border:1px solid var(--dash-faint); color:var(--cream-dim); }
@@ -379,11 +382,12 @@
       <div id="groupAddArea"></div>
     </div>
 
-    <div class="sheet-overlay" id="settingsSheetOverlay"></div>
-    <div class="sheet" id="settingsSheet" role="dialog" aria-modal="true" aria-label="Settings">
-      <div class="sheet-handle"></div>
-      <div class="sheet-head"><h3>Settings</h3><button class="sheet-close" id="settingsSheetClose" aria-label="Close">✕</button></div>
-      <button class="drawer-footer-btn" id="openDataBtn">⇅ Export / Import data</button>
+    <div class="drawer-overlay" id="settingsPanelOverlay"></div>
+    <div class="drawer right" id="settingsPanel" role="dialog" aria-modal="true" aria-label="Settings">
+      <div class="drawer-head"><h3>Settings</h3><button class="drawer-close" id="settingsPanelClose" aria-label="Close">✕</button></div>
+      <div class="drawer-body">
+        <button class="drawer-footer-btn" id="openDataBtn">⇅ Export / Import data</button>
+      </div>
     </div>
 
     <div class="data-modal-overlay" id="dataModalOverlay"></div>
@@ -450,9 +454,9 @@
   const searchInput = document.getElementById('searchInput');
   const sortSelect = document.getElementById('sortSelect');
   const settingsBtn = document.getElementById('settingsBtn');
-  const settingsSheet = document.getElementById('settingsSheet');
-  const settingsSheetOverlay = document.getElementById('settingsSheetOverlay');
-  const settingsSheetClose = document.getElementById('settingsSheetClose');
+  const settingsPanel = document.getElementById('settingsPanel');
+  const settingsPanelOverlay = document.getElementById('settingsPanelOverlay');
+  const settingsPanelClose = document.getElementById('settingsPanelClose');
   const toast = document.getElementById('toast');
   const toastMsg = document.getElementById('toastMsg');
   const toastUndoBtn = document.getElementById('toastUndoBtn');
@@ -535,20 +539,20 @@
   drawerOverlay.addEventListener('click', closeDrawer);
   wireOverlay(drawer, closeDrawer);
 
-  /* ---------- settings sheet ---------- */
-  function openSettingsSheet(){
+  /* ---------- settings panel ---------- */
+  function openSettingsPanel(){
     returnFocusEl = document.activeElement;
-    settingsSheet.classList.add('open'); settingsSheetOverlay.classList.add('open');
-    setTimeout(()=> settingsSheetClose.focus(), 50);
+    settingsPanel.classList.add('open'); settingsPanelOverlay.classList.add('open');
+    setTimeout(()=> settingsPanelClose.focus(), 50);
   }
-  function closeSettingsSheet(){
-    settingsSheet.classList.remove('open'); settingsSheetOverlay.classList.remove('open');
+  function closeSettingsPanel(){
+    settingsPanel.classList.remove('open'); settingsPanelOverlay.classList.remove('open');
     if(returnFocusEl) returnFocusEl.focus();
   }
-  settingsBtn.addEventListener('click', openSettingsSheet);
-  settingsSheetClose.addEventListener('click', closeSettingsSheet);
-  settingsSheetOverlay.addEventListener('click', closeSettingsSheet);
-  wireOverlay(settingsSheet, closeSettingsSheet);
+  settingsBtn.addEventListener('click', openSettingsPanel);
+  settingsPanelClose.addEventListener('click', closeSettingsPanel);
+  settingsPanelOverlay.addEventListener('click', closeSettingsPanel);
+  wireOverlay(settingsPanel, closeSettingsPanel);
 
   /* ---------- data modal ---------- */
   function openDataModal(){
@@ -562,7 +566,7 @@
     dataModal.classList.remove('open'); dataModalOverlay.classList.remove('open');
     if(returnFocusEl) returnFocusEl.focus();
   }
-  openDataBtn.addEventListener('click', ()=>{ closeSettingsSheet(); openDataModal(); });
+  openDataBtn.addEventListener('click', ()=>{ closeSettingsPanel(); openDataModal(); });
   dataModalClose.addEventListener('click', closeDataModal);
   dataModalOverlay.addEventListener('click', closeDataModal);
   wireOverlay(dataModal, closeDataModal);
